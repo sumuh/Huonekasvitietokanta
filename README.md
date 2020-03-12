@@ -1,0 +1,2 @@
+# Huonekasvitietokanta
+Tietokantasovellus-harjoitustyöprojekti
