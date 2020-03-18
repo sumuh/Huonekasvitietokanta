@@ -1,5 +1,5 @@
 # Huonekasvitietokanta
 
-Tietokantaan kerätään tietoa huonekasveista ja mm. niiden hoito-ohjeista. Kuka tahansa käyttäjä voi lisätä tietokantaan uuden kasvin tiedot tai muokata olemassaolevan kasvin tietoja. Käyttäjät voivat lisätä kasveja henkilökohtaiselle Omistetut-listalleen ja poistaa niitä sieltä. 
+Tietokannassa on tietoa eri huonekasveista ja niiden hoito-ohjeista. Uusia kasveja hoito-ohjeineen voi lisätä admin-tunnuksilla. Käyttäjät voivat etsiä kasveja erilaisilla hakukriteereillä ja lisätä niitä omalle listalleen. Kunkin omalla listalla olevan kasvin kohdalla pidetään kirjaa siitä, milloin käyttäjä on viimeksi kastellut/lannoittanut kasvin ja sovellus kertoo, milloin se tulisi tehdä seuraavan kerran.
 
-[Alustava tietokantakaavio](https://github.com/sumuh/Huonekasvitietokanta/blob/master/Tietokantakaavio.png)
+[Alustava tietokantakaavio](https://github.com/sumuh/Huonekasvitietokanta/blob/master/Tietokantakaavio1.png)
