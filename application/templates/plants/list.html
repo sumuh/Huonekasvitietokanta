@@ -5,11 +5,21 @@
     <tr>
       <th>Kasvi</th>
       <th>Latinankielinen nimi</th>
+      <th>Vedentarve</th>
+      <th>Lannoituksentarve</th>
+      <th>Valontarve</th>
     </tr>
     {% for plant in plants %}
     <tr>
       <td>{{ plant.nimi }}</td>
       <td>{{ plant.nimi_lat }}</td>
+      <td>{{ plant.vedentarve }}</td>
+      <td>{{ plant.lannoituksentarve }}</td>
+      <td>{{ plant.valontarve }}</td>
+      <td>
+        <form method="GET" action="{{ url_for('plants_update_form', plant_id=plant.id) }}">
+          <input type="submit" value="Muuta tietoja"/>
+        </form>
     </tr>
     {% endfor %}
   </table>

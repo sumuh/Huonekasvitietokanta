@@ -2,8 +2,8 @@ from application import db
 
 class Plant(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    nimi = db.Column(db.String(100))
-    nimi_lat = db.Column(db.String(100))
+    nimi = db.Column(db.String(100), nullable=False)
+    nimi_lat = db.Column(db.String(100), nullable=False)
     vedentarve = db.Column(db.String(50))
     lannoituksentarve = db.Column(db.String(50))
     valontarve= db.Column(db.String(50))

@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<form method="POST" action="{{ url_for('plants_update', plant_id=plant_id) }}">
+  <label for="nimi_vanha">Vanha nimi: {{ vanha.nimi }}</label><br>
+  <label for="nimi_uusi">Uusi nimi:</label>
+  <input type="text" id="nimi_uusi" name="nimi_uusi" required="required"/><br>
+
+  <label for="nimi_lat_vanha">Vanha latinankielinen nimi: {{ vanha.nimi_lat }}</label><br>
+  <label for="nimi_lat_uusi">Uusi nimi:</label>
+  <input type="text" id="nimi_lat_uusi" name="nimi_lat_uusi" required="required"/><br>
+
+  <input type="submit" value="Päivitä"/>
+</form>
+{% endblock %}
