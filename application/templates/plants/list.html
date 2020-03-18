@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <table>
+    <tr>
+      <th>Kasvi</th>
+      <th>Latinankielinen nimi</th>
+    </tr>
+    {% for plant in plants %}
+    <tr>
+      <td>{{ plant.nimi }}</td>
+      <td>{{ plant.nimi_lat }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endblock %}

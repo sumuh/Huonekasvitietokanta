@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<form method="POST" action="{{ url_for('plants_create') }}">
+  <label for="nimi">Kasvin nimi:</label>
+  <input type="text" id="nimi" name="nimi"/><br>
+
+  <label for="nimi_lat">Latinankielinen nimi:</label>
+  <input type="text" id="nimi_lat" name="nimi_lat"/><br>
+
+  <label for="vedentarve">Vedentarve:</label>
+  <input type="text" id="vedentarve" name="vedentarve"/><br>
+
+  <label for="lannoituksentarve">Lannoituksentarve:</label>
+  <input type="text" id="lannoituksentarve" name"lannoituksentarve"/><br>
+
+  <label for="valontarve">Valontarve:</label>
+  <input type="text" id="valontarve" name="valontarve"/><br>
+
+  <input type="submit" value="Lisää uusi kasvi"/>
+</form>
+{% endblock %}
