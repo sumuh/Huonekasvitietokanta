@@ -2,21 +2,66 @@
 
 {% block body %}
 <form method="POST" action="{{ url_for('plants_create') }}">
-  <label for="nimi">Kasvin nimi:</label>
-  <input type="text" id="nimi" name="nimi"/><br>
-
-  <label for="nimi_lat">Latinankielinen nimi:</label>
-  <input type="text" id="nimi_lat" name="nimi_lat"/><br>
-
-  <label for="vedentarve">Vedentarve:</label>
-  <input type="text" id="vedentarve" name="vedentarve"/><br>
-
-  <label for="lannoituksentarve">Lannoituksentarve:</label>
-  <input type="text" id="lannoituksentarve" name="lannoituksentarve"/><br>
-
-  <label for="valontarve">Valontarve:</label>
-  <input type="text" id="valontarve" name="valontarve"/><br>
-
-  <input type="submit" value="Lisää uusi kasvi"/>
+  <table>
+      <tr>
+          <td>
+              {{ form.nimi.label }}
+          </td>
+          <td>
+              {{ form.nimi }}
+          </td>
+          <td>
+              <ul>
+                  {% for error in form.nimi.errors %}
+                  <li>{{ error }}</li>
+                  {% endfor %}
+              </ul>
+          </td>
+      </tr>
+      <tr>
+          <td>
+              {{ form.nimi_lat.label }}
+          </td>
+          <td>
+              {{ form.nimi_lat }}
+          </td>
+          <td>
+              <ul>
+                  {% for error in form.nimi_lat.errors %}
+                  <li>{{ error }}</li>
+                  {% endfor %}
+              </ul>
+          </td>
+      </tr>
+      <tr>
+          <td>
+              {{ form.vedentarve.label }}
+          </td>
+          <td>
+              {{ form.vedentarve }}
+          </td>
+      </tr>
+      <tr>
+          <td>
+              {{ form.lannoituksentarve.label }}
+          </td>
+          <td>
+              {{ form.lannoituksentarve }}
+          </td>
+      </tr>
+      <tr>
+          <td>
+              {{ form.valontarve.label }}
+          </td>
+          <td>
+              {{ form.valontarve }}
+          </td>
+      </tr>
+      <tr>
+          <td colspan="2">
+              <input type="submit" value="Lisää uusi kasvi" />
+          </td>
+      </tr>
+  </table>
 </form>
 {% endblock %}

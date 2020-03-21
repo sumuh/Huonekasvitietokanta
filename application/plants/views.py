@@ -1,6 +1,7 @@
 from application import app, db
 from flask import render_template, request, redirect, url_for
 from application.plants.models import Plant
+from application.plants.forms import PlantForm
 
 @app.route("/plants/", methods=["GET"])
 def plants_index():
@@ -9,18 +10,28 @@ def plants_index():
 
 @app.route("/plants/new/")
 def plants_form():
-    return render_template("plants/new.html")
+    return render_template("plants/new.html", form = PlantForm())
 
 @app.route("/plants/<plant_id>/")
 def plants_update_form(plant_id):
-    return render_template("plants/update.html", plant_id = plant_id, vanha = Plant.query.get(plant_id))
+    p = Plant.query.get(plant_id)
+    return render_template("plants/update.html", plant_id = plant_id, form = PlantForm(obj=p))
 
 @app.route("/plants/<plant_id>/", methods=["POST"])
 def plants_update(plant_id):
 
     p = Plant.query.get(plant_id)
-    p.nimi = request.form.get("nimi_uusi")
-    p.nimi_lat = request.form.get("nimi_lat_uusi")
+    form = PlantForm(request.form)
+
+    if not form.validate():
+        return render_template("plants/update.html", plant_id = plant_id, form = form)
+
+    p.nimi = form.nimi.data
+    p.nimi_lat = form.nimi_lat.data
+    p.vedentarve = form.vedentarve.data
+    p.lannoituksentarve = form.lannoituksentarve.data
+    p.valontarve = form.valontarve.data
+
     db.session().commit()
 
     return redirect(url_for("plants_index"))
@@ -29,11 +40,16 @@ def plants_update(plant_id):
 @app.route("/plants/new/", methods=["POST"])
 def plants_create():
 
-    nimi = request.form.get("nimi")
-    nimi_lat = request.form.get("nimi_lat")
-    vedentarve = request.form.get("vedentarve")
-    lannoituksentarve = request.form.get("lannoituksentarve")
-    valontarve = request.form.get("valontarve")
+    form = PlantForm(request.form)
+
+    if not form.validate():
+        return render_template("plants/new.html", form = form)
+
+    nimi = form.nimi.data
+    nimi_lat = form.nimi_lat.data
+    vedentarve = form.vedentarve.data
+    lannoituksentarve = form.lannoituksentarve.data
+    valontarve = form.valontarve.data
 
     p = Plant(nimi, nimi_lat, vedentarve, lannoituksentarve, valontarve)
 

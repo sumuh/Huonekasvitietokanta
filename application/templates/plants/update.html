@@ -2,14 +2,66 @@
 
 {% block body %}
 <form method="POST" action="{{ url_for('plants_update', plant_id=plant_id) }}">
-  <label for="nimi_vanha">Vanha nimi: {{ vanha.nimi }}</label><br>
-  <label for="nimi_uusi">Uusi nimi:</label>
-  <input type="text" id="nimi_uusi" name="nimi_uusi" required="required"/><br>
-
-  <label for="nimi_lat_vanha">Vanha latinankielinen nimi: {{ vanha.nimi_lat }}</label><br>
-  <label for="nimi_lat_uusi">Uusi nimi:</label>
-  <input type="text" id="nimi_lat_uusi" name="nimi_lat_uusi" required="required"/><br>
-
-  <input type="submit" value="Päivitä"/>
+  <table>
+      <tr>
+          <td>
+              {{ form.nimi.label }}
+          </td>
+          <td>
+              {{ form.nimi }}
+          </td>
+          <td>
+              <ul>
+                  {% for error in form.nimi.errors %}
+                  <li>{{ error }}</li>
+                  {% endfor %}
+              </ul>
+          </td>
+      </tr>
+      <tr>
+          <td>
+              {{ form.nimi_lat.label }}
+          </td>
+          <td>
+              {{ form.nimi_lat }}
+          </td>
+          <td>
+              <ul>
+                  {% for error in form.nimi_lat.errors %}
+                  <li>{{ error }}</li>
+                  {% endfor %}
+              </ul>
+          </td>
+      </tr>
+      <tr>
+          <td>
+              {{ form.vedentarve.label }}
+          </td>
+          <td>
+              {{ form.vedentarve }}
+          </td>
+      </tr>
+      <tr>
+          <td>
+              {{ form.lannoituksentarve.label }}
+          </td>
+          <td>
+              {{ form.lannoituksentarve }}
+          </td>
+      </tr>
+      <tr>
+          <td>
+              {{ form.valontarve.label }}
+          </td>
+          <td>
+              {{ form.valontarve }}
+          </td>
+      </tr>
+      <tr>
+          <td colspan="2">
+              <input type="submit" value="Päivitä tiedot" />
+          </td>
+      </tr>
+  </table>
 </form>
 {% endblock %}
