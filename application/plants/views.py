@@ -1,5 +1,7 @@
-from application import app, db
 from flask import render_template, request, redirect, url_for
+from flask_login import login_required, current_user
+
+from application import app, db
 from application.plants.models import Plant
 from application.plants.forms import PlantForm
 
@@ -9,15 +11,18 @@ def plants_index():
 
 
 @app.route("/plants/new/")
+@login_required
 def plants_form():
     return render_template("plants/new.html", form = PlantForm())
 
 @app.route("/plants/<plant_id>/")
+@login_required
 def plants_update_form(plant_id):
     p = Plant.query.get(plant_id)
     return render_template("plants/update.html", plant_id = plant_id, form = PlantForm(obj=p))
 
 @app.route("/plants/<plant_id>/", methods=["POST"])
+@login_required
 def plants_update(plant_id):
 
     p = Plant.query.get(plant_id)
@@ -38,6 +43,7 @@ def plants_update(plant_id):
 
 
 @app.route("/plants/new/", methods=["POST"])
+@login_required
 def plants_create():
 
     form = PlantForm(request.form)
@@ -52,6 +58,8 @@ def plants_create():
     valontarve = form.valontarve.data
 
     p = Plant(nimi, nimi_lat, vedentarve, lannoituksentarve, valontarve)
+
+    p.account_id = current_user.id
 
     db.session().add(p)
     db.session().commit()
