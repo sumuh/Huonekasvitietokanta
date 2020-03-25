@@ -6,8 +6,10 @@ from application.plants.models import Plant
 from application.plants.forms import PlantForm
 
 @app.route("/plants/", methods=["GET"])
+@login_required
 def plants_index():
-    return render_template("plants/list.html", plants = Plant.query.all())
+    userPlants = Plant.query.filter_by(account_id = current_user.id)
+    return render_template("plants/list.html", plants = userPlants)
 
 
 @app.route("/plants/new/")
@@ -63,5 +65,15 @@ def plants_create():
 
     db.session().add(p)
     db.session().commit()
+
+    return redirect(url_for("plants_index"))
+
+@app.route("/plants/delete/<plant_id>", methods=['POST'])
+@login_required
+def plants_delete(plant_id):
+
+    p = Plant.query.get(plant_id)
+    db.session.delete(p)
+    db.session.commit()
 
     return redirect(url_for("plants_index"))
