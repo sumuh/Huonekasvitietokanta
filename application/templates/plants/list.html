@@ -1,21 +1,28 @@
 {% extends "layout.html" %}
 
 {% block body %}
+  <style>
+    .styled {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+  </style>
   <table>
     <tr>
-      <th>Kasvi</th>
-      <th>Latinankielinen nimi</th>
-      <th>Vedentarve</th>
-      <th>Lannoituksentarve</th>
-      <th>Valontarve</th>
+      <th class="styled">Kasvi</th>
+      <th class="styled">Latinankielinen nimi</th>
+      <th class="styled">Vedentarve</th>
+      <th class="styled">Lannoituksentarve</th>
+      <th class="styled">Valontarve</th>
     </tr>
     {% for plant in plants %}
     <tr>
-      <td>{{ plant.nimi }}</td>
-      <td>{{ plant.nimi_lat }}</td>
-      <td>{{ plant.vedentarve }}</td>
-      <td>{{ plant.lannoituksentarve }}</td>
-      <td>{{ plant.valontarve }}</td>
+      <td class="styled">{{ plant.nimi }}</td>
+      <td class="styled">{{ plant.nimi_lat }}</td>
+      <td class="styled">{{ plant.vedentarve }}</td>
+      <td class="styled">{{ plant.lannoituksentarve }}</td>
+      <td class="styled">{{ plant.valontarve }}</td>
       <td>
         <form method="GET" action="{{ url_for('plants_update_form', plant_id=plant.id) }}">
           <input type="submit" value="Muuta tietoja"/>

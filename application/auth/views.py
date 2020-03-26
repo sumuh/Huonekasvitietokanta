@@ -37,10 +37,13 @@ def auth_register():
     if not form.validate():
         return render_template("auth/register.html", form = form)
 
-    kayttajanimi = form.username.data
-    salasana = form.password.data
-    user = User(kayttajanimi, salasana)
+    usernameExists = User.query.filter_by(username=form.username.data).first()
+    if usernameExists:
+        return render_template("auth/register.html", form = form, error = "Käyttäjänimi on jo käytössä")
 
+    username = form.username.data
+    password = form.password.data
+    user = User(username, password)
     db.session.add(user)
     db.session.commit()
 
