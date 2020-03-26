@@ -2,7 +2,9 @@
 
 Tietokannassa on tietoa eri huonekasveista ja niiden hoito-ohjeista. Uusia kasveja hoito-ohjeineen voi lisätä admin-tunnuksilla. Käyttäjät voivat etsiä kasveja erilaisilla hakukriteereillä ja lisätä niitä omalle listalleen. Kunkin omalla listalla olevan kasvin kohdalla pidetään kirjaa siitä, milloin käyttäjä on viimeksi kastellut/lannoittanut kasvin ja sovellus kertoo, milloin se tulisi tehdä seuraavan kerran.
 
-Testitunnukset: käyttäjätunnus on test ja salasana on test
+Testitunnukset: käyttäjätunnus on test ja salasana on test (voi myös rekisteröidä omat tunnukset)
+
+Tällä hetkellä kuka tahansa käyttäjä saa lisätä tietokantaan kasveja, ja lisätyt kasvit näytetään käyttäjäkohtaisesti.
 
 [Sovellus Herokussa](https://tsoha-huonekasvitietokanta.herokuapp.com/)
 
