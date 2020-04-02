@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+  <div class="container">
+    <div class="row">
+      <div class="col-2">
+        <p>
+          Hae kasvia nimellä:
+        </p>
+      </div>
+      <div class="col-5">
+        <form method="POST" action="{{ url_for('plants_search') }}">
+          {{ searchform.nimi }}
+          <input type="submit" value="Hae" />
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-2">
+        <p>
+          Hae kategorian kasvit (tämä ei vielä toimi):
+        </p>
+      </div>
+      <div class="col-5">
+        <form method="POST" action="{{ url_for('plants_search_category') }}">
+          {{ searchcategoryform.kategoria }}
+          <input type="submit" value="Hae" disabled/>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+
+        {% block content %}
+        <p>
+          Content
+        </p>
+        {% endblock %}
+
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}

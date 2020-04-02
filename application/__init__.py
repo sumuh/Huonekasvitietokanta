@@ -8,7 +8,7 @@ import os
 if os.environ.get("HEROKU"):
     app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
 else:
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///tasks.db"
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///plants.db"
     app.config["SQLALCHEMY_ECHO"] = True
 
 db = SQLAlchemy(app)
@@ -37,7 +37,4 @@ login_manager.login_message = "Ole hyvä ja kirjaudu"
 def load_user(user_id):
     return User.query.get(user_id)
 
-try:
-    db.create_all()
-except:
-    pass
+db.create_all()

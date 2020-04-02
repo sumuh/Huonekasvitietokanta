@@ -20,7 +20,7 @@ def auth_login():
         return render_template("auth/loginform.html", form = form, error = "Käyttäjänimi tai salasana on väärin")
 
     login_user(user)
-    return redirect(url_for("index"))
+    return redirect(url_for("plants_show_all"))
 
 @app.route("/auth/logout")
 def auth_logout():

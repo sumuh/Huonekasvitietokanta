@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <style>
+    th {
+      background-color: #9aad99;
+    }
+  </style>
+
+  <table class="table table-bordered">
+    <thead class="font-weight-lighter">
+      <tr>
+        <th>Kasvi</th>
+        <th>Latinankielinen nimi</th>
+        <th>Vedentarve</th>
+        <th>Lannoituksentarve</th>
+        <th>Valontarve</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for plant in plants %}
+      <tr>
+        <td>{{ plant.nimi }}</td>
+        <td>{{ plant.nimi_lat }}</td>
+        <td>{{ plant.vedentarve }}</td>
+        <td>{{ plant.lannoituksentarve }}</td>
+        <td>{{ plant.valontarve }}</td>
+        <td>
+          <form method="POST" action="{{ url_for('plants_remove', plant_id=plant.id) }}">
+            <input type="submit" value="Poista omalta listalta"/>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+
+  </table>
+
+{% endblock %}

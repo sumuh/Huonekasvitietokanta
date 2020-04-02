@@ -11,7 +11,7 @@ class User(db.Model):
     username = db.Column(db.String(144), nullable=False)
     password = db.Column(db.String(144), nullable=False)
 
-    plants = db.relationship("Plant", backref='account', lazy=True)
+    plants = db.relationship("PlantUser", back_populates="user", cascade="all, delete-orphan")
 
     def __init__(self, username, password):
         self.username = username

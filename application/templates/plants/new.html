@@ -2,66 +2,67 @@
 
 {% block body %}
 <form method="POST" action="{{ url_for('plants_create') }}">
-  <table>
-      <tr>
-          <td>
-              {{ form.nimi.label }}
-          </td>
-          <td>
-              {{ form.nimi }}
-          </td>
-          <td>
-              <ul>
-                  {% for error in form.nimi.errors %}
-                  <li>{{ error }}</li>
-                  {% endfor %}
-              </ul>
-          </td>
-      </tr>
-      <tr>
-          <td>
-              {{ form.nimi_lat.label }}
-          </td>
-          <td>
-              {{ form.nimi_lat }}
-          </td>
-          <td>
-              <ul>
-                  {% for error in form.nimi_lat.errors %}
-                  <li>{{ error }}</li>
-                  {% endfor %}
-              </ul>
-          </td>
-      </tr>
-      <tr>
-          <td>
-              {{ form.vedentarve.label }}
-          </td>
-          <td>
-              {{ form.vedentarve }}
-          </td>
-      </tr>
-      <tr>
-          <td>
-              {{ form.lannoituksentarve.label }}
-          </td>
-          <td>
-              {{ form.lannoituksentarve }}
-          </td>
-      </tr>
-      <tr>
-          <td>
-              {{ form.valontarve.label }}
-          </td>
-          <td>
-              {{ form.valontarve }}
-          </td>
-      </tr>
-      <tr>
-          <td colspan="2">
-              <input type="submit" value="Lisää uusi kasvi" />
-          </td>
-      </tr>
-  </table>
+    <table>
+        <tr>
+            <td>
+                {{ form.nimi.label }}
+            </td>
+            <td>
+                {{ form.nimi }}
+            </td>
+            <td>
+                <ul>
+                    {% for error in form.nimi.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {{ form.nimi_lat.label }}
+            </td>
+            <td>
+                {{ form.nimi_lat }}
+            </td>
+            <td>
+                <ul>
+                    {% for error in form.nimi_lat.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {{ form.vedentarve.label }}
+            </td>
+            <td>
+                {{ form.vedentarve }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {{ form.lannoituksentarve.label }}
+            </td>
+            <td>
+                {{ form.lannoituksentarve }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {{ form.valontarve.label }}
+            </td>
+            <td>
+                {{ form.valontarve }}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="Lisää uusi kasvi" />
+            </td>
+        </tr>
+    </table>
+
 </form>
 {% endblock %}

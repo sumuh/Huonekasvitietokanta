@@ -2,14 +2,29 @@ from flask import render_template, request, redirect, url_for
 from flask_login import login_required, current_user
 
 from application import app, db
-from application.plants.models import Plant
-from application.plants.forms import PlantForm
+from application.plants.models import Plant, PlantUser, Category, PlantCategory
+from application.plants.forms import PlantForm, SearchForm, CreateCategoryForm, SearchCategoryForm
+from application.auth.models import User
+
+from sqlalchemy.sql import text
 
 @app.route("/plants/", methods=["GET"])
 @login_required
-def plants_index():
-    userPlants = Plant.query.filter_by(account_id = current_user.id)
-    return render_template("plants/list.html", plants = userPlants)
+def plants_show_user():
+    userPlants = []
+    
+    allInstances = PlantUser.query.all()
+    for i in allInstances:
+        if i.user_id == current_user.id:
+            p = Plant.query.get(i.plant_id)
+            userPlants.append(p)
+
+    return render_template("plants/listuser.html", plants = userPlants)
+
+@app.route("/plants/all/")
+def plants_show_all():
+    allPlants = Plant.query.all()
+    return render_template("plants/listall.html", plants = allPlants, searchform = SearchForm(), searchcategoryform = SearchCategoryForm())
 
 
 @app.route("/plants/new/")
@@ -41,7 +56,7 @@ def plants_update(plant_id):
 
     db.session().commit()
 
-    return redirect(url_for("plants_index"))
+    return redirect(url_for("plants_show_all"))
 
 
 @app.route("/plants/new/", methods=["POST"])
@@ -61,19 +76,116 @@ def plants_create():
 
     p = Plant(nimi, nimi_lat, vedentarve, lannoituksentarve, valontarve)
 
-    p.account_id = current_user.id
-
     db.session().add(p)
     db.session().commit()
 
-    return redirect(url_for("plants_index"))
+    return redirect(url_for("plants_show_all"))
+
+@app.route("/plants/add/<plant_id>", methods=["POST"])
+@login_required
+def plants_add(plant_id):
+
+    p = Plant.query.get(plant_id)
+    user = User.query.get(current_user.id)
+
+    connectionExists = PlantUser.query.filter_by(user=user, plant=p).first()
+    if not connectionExists:
+        pu = PlantUser(plant=p, user=user)
+
+        db.session().add(pu)
+        db.session().commit()
+
+    return redirect(url_for("plants_show_all"))
 
 @app.route("/plants/delete/<plant_id>", methods=['POST'])
 @login_required
 def plants_delete(plant_id):
 
     p = Plant.query.get(plant_id)
+    pu = PlantUser.query.all()
+    for i in pu:
+        if i.plant_id == plant_id:
+            db.session.delete(i)
+            db.session.commit()
+
     db.session.delete(p)
     db.session.commit()
 
-    return redirect(url_for("plants_index"))
+    return redirect(url_for("plants_show_all"))
+
+@app.route("/plants/remove/<plant_id>", methods=['POST'])
+@login_required
+def plants_remove(plant_id):
+
+    p = Plant.query.get(plant_id)
+    pu = PlantUser.query.filter_by(user=current_user, plant=p).first()
+    db.session.delete(pu)
+    db.session.commit()
+
+    return redirect(url_for("plants_show_user"))
+
+@app.route("/plants/search/", methods=['POST'])
+#@login_required
+def plants_search():
+
+    searchform = SearchForm(request.form)
+
+    if not searchform.validate():
+        return render_template("plants/listall.html", searchform = searchform)
+
+    nimi = searchform.nimi.data
+
+    result = Plant.find_plant_by_name(name=nimi)
+
+    if not result:
+        return render_template("plants/noresults.html")
+
+    results = []
+    p = Plant.query.get(result)
+    results.append(p)
+
+    return render_template("plants/searchresults.html", plants = results)
+
+@app.route("/plants/search/category", methods=['POST'])
+#@login_required
+def plants_search_category():
+
+    searchcategoryform = SearchCategoryForm(request.form)
+
+    if not searchcategoryform.validate():
+        return render_template("plants/listall.html", searchcategoryform = searchcategoryform)
+
+    kategoria = searchcategoryform.kategoria.data
+
+    result = Plant.find_plant_by_name(name=nimi)
+
+    results = []
+    p = Plant.query.get(result)
+    results.append(p)
+
+    return render_template("plants/searchresults.html", plants = results)
+
+@app.route("/plants/newcategory/", methods=['GET'])
+@login_required
+def category_form():
+    return render_template("categories/new.html", form = CreateCategoryForm(), kategoriat=Category.query.all())
+
+@app.route("/plants/newcategory/", methods=['POST'])
+def category_create():
+
+    form = CreateCategoryForm(request.form)
+
+    if not form.validate():
+        return render_template("categories/new.html", form = form)
+
+    nimi = form.nimi.data
+    kuvaus = form.kuvaus.data
+
+    exists = Category.query.filter_by(nimi=nimi).first()
+    if not exists:
+        c = Category(nimi, kuvaus)
+
+        db.session().add(c)
+        db.session().commit()
+
+    return redirect(url_for("plants_show_all"))
