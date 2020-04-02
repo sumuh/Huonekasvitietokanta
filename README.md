@@ -4,7 +4,7 @@ Tietokannassa on tietoa eri huonekasveista ja niiden hoito-ohjeista. Uusia kasve
 
 Testitunnukset: käyttäjätunnus on test ja salasana on test (voi myös rekisteröidä omat tunnukset)
 
-Tällä hetkellä kuka tahansa käyttäjä saa lisätä tietokantaan kasveja, ja lisätyt kasvit näytetään käyttäjäkohtaisesti.
+Tällä hetkellä kuka tahansa käyttäjä saa lisätä tietokantaan kasveja, jotka näkyvät kaikille käyttäjille yhteisellä listalla. Jokainen käyttäjä voi lisätä tältä listalta kasveja henkilökohtaiselle listalleen.
 
 [Sovellus Herokussa](https://tsoha-huonekasvitietokanta.herokuapp.com/)
 
