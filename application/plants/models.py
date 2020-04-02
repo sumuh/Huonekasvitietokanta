@@ -48,10 +48,11 @@ class PlantUser(db.Model):
         self.user = user
 
     @staticmethod
-    def find_user_plants():
+    def user_plants(current_id):
         stmt = text("SELECT Plant.id, Plant.nimi FROM Plant"
                     " LEFT JOIN PlantUser ON PlantUser.plant_id = Plant.id"
-                    " LEFT JOIN Account ON Account.id = PlantUser.user_id")
+                    " LEFT JOIN Account ON Account.id = PlantUser.user_id"
+                    " WHERE Account.id = :current").params(current=current_id)
 
         response = []
         res = db.engine.execute(stmt)

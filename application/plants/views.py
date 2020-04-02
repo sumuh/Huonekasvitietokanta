@@ -11,15 +11,22 @@ from sqlalchemy.sql import text
 @app.route("/show/user", methods=["GET"])
 @login_required
 def plants_show_user():
-    userPlants = []
+    #userPlants = []
 
-    allInstances = PlantUser.query.all()
-    for i in allInstances:
-        if i.user_id == current_user.id:
-            p = Plant.query.get(i.plant_id)
-            userPlants.append(p)
+    #allInstances = PlantUser.query.all()
+    #for i in allInstances:
+    #    if i.user_id == current_user.id:
+    #        p = Plant.query.get(i.plant_id)
+    #        userPlants.append(p)
 
-    return render_template("plants/listuser.html", plants = userPlants)
+    result = PlantUser.user_plants(current_user.id)
+    results = []
+
+    for r in result:
+        p = Plant.query.get(r)
+        results.append(p)
+
+    return render_template("plants/listuser.html", plants = results)
 
 @app.route("/show/all")
 def plants_show_all():
