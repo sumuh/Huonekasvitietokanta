@@ -48,6 +48,10 @@ def plants_new():
     if not form.validate():
         return render_template("plants/new.html", form = form)
 
+    nameExists = Plant.query.filter_by(nimi=form.nimi.data).first()
+    if nameExists:
+        return render_template("plants/new.html", form = form, error = "Kasvi löytyy jo tietokannasta!")
+
     nimi = form.nimi.data
     nimi_lat = form.nimi_lat.data
     vedentarve = form.vedentarve.data
@@ -146,10 +150,10 @@ def plants_search():
         return render_template("plants/noresults.html")
 
     results = []
-    p = Plant.query.get(result)
+    p = Plant(result[1], result[2], result[3], result[4], result[5])
     results.append(p)
 
-    return render_template("plants/searchresults.html", plants = results)
+    return render_template("plants/searchresults.html", plants = results, plant_id = result[0])
 
 @app.route("/search/category", methods=['POST'])
 def categories_search():
@@ -180,16 +184,18 @@ def categories_new():
     form = CreateCategoryForm(request.form)
 
     if not form.validate():
-        return render_template("categories/new.html", form = form)
+        return render_template("categories/new.html", form = form, kategoriat=Category.query.all())
+
+    categoryExists = Category.query.filter_by(nimi=form.nimi.data).first()
+    if categoryExists:
+        return render_template("categories/new.html", form = form, error = "Tämän niminen kategoria on jo olemassa!", kategoriat=Category.query.all())
 
     nimi = form.nimi.data
     kuvaus = form.kuvaus.data
 
-    exists = Category.query.filter_by(nimi=nimi).first()
-    if not exists:
-        c = Category(nimi, kuvaus)
+    c = Category(nimi, kuvaus)
 
-        db.session().add(c)
-        db.session().commit()
+    db.session().add(c)
+    db.session().commit()
 
     return redirect(url_for("plants_show_all"))

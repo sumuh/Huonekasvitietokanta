@@ -24,13 +24,14 @@ class Plant(db.Model):
 
     @staticmethod
     def find_plant_by_name(name):
-        stmt = text("SELECT Plant.id FROM Plant"
-                    " WHERE Plant.nimi = :name").params(name=name)
+        stmt = text("SELECT * FROM Plant"
+                    " WHERE LOWER(Plant.nimi) = :name").params(name=name.lower())
 
         response = []
         res = db.engine.execute(stmt)
         for row in res:
-            response.append(row[0])
+            print(row)
+            response.extend(row)
         return response
 
 class PlantUser(db.Model):
