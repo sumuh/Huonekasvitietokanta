@@ -7,6 +7,8 @@
     }
   </style>
 
+  <h4>Omat kasvit</h4>
+
   <table class="table table-bordered">
     <thead class="font-weight-lighter">
       <tr>
@@ -26,7 +28,7 @@
         <td>{{ plant.lannoituksentarve }}</td>
         <td>{{ plant.valontarve }}</td>
         <td>
-          <form method="POST" action="{{ url_for('plants_delete_connection', plant_id=plant.id) }}">
+          <form method="POST" action="{{ url_for('plants_delete_user_connection', plant_id=plant.id) }}">
             <input type="submit" value="Poista omalta listalta"/>
           </form>
         </td>

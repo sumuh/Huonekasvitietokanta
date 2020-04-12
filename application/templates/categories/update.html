@@ -1,17 +1,11 @@
 {% extends "layout.html" %}
 
 {% block body %}
-<style>
-  th {
-    background-color: #9aad99;
-  }
-</style>
 {{ error }}
 <div class="container">
   <div class="row">
     <div class="col">
-      <h4>Lisää kategorioita</h4>
-      <form method="POST" action="{{ url_for('categories_new') }}">
+      <form method="POST" action="{{ url_for('categories_update', category_id=category_id) }}">
           <table>
               <tr>
                   <td>
@@ -46,33 +40,11 @@
 
               <tr>
                   <td colspan="2">
-                      <input type="submit" value="Lisää uusi kategoria" />
+                      <input type="submit" value="Muokkaa kategoriaa" />
                   </td>
               </tr>
           </table>
       </form>
-    </div>
-    <div class="col">
-      <p>
-        Olemassa olevat kategoriat:
-      </p>
-      <table class="table table-bordered">
-        <thead class="font-weight-lighter">
-          <tr>
-            <th>Kategoria</th>
-            <th>Kuvaus</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for k in kategoriat %}
-          <tr>
-            <td>{{ k.nimi }}</td>
-            <td>{{ k.kuvaus }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-
-      </table>
     </div>
   </div>
 </div>

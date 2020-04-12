@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<style>
+  th {
+    background-color: #9aad99;
+  }
+</style>
+
+<h4>Hallitse kategorioita</h4>
+<table class="table table-bordered">
+  <thead class="font-weight-lighter">
+    <tr>
+      <th>Kategoria</th>
+      <th>Kuvaus</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for k in kategoriat %}
+    <tr>
+      <td>{{ k.nimi }}</td>
+      <td>{{ k.kuvaus }}</td>
+      <td>
+        <form method="GET" action="{{ url_for('categories_update_form', category_id=k.id) }}">
+          <input type="submit" value="Muokkaa"/>
+        </form>
+      </td>
+      <td>
+        <form method="GET" action="{{ url_for('categories_delete', category_id=k.id) }}">
+          <input type="submit" value="Poista"/>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+
+</table>
+
+{% endblock %}
