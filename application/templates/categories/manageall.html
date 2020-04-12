@@ -30,6 +30,11 @@
           <input type="submit" value="Poista"/>
         </form>
       </td>
+      <td>
+        <form method="GET" action="{{ url_for('categories_manage_one', category_id=k.id) }}">
+          <input type="submit" value="Hallitse kasveja"/>
+        </form>
+      </td>
     </tr>
     {% endfor %}
   </tbody>

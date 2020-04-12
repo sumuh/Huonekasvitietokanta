@@ -200,26 +200,38 @@ def categories_new():
 
     return redirect(url_for("categories_new"))
 
-@app.route("/new/category/connection/<plant_id>", methods=["POST"])
+@app.route("/new/category/connection/<category_id>/<plant_id>")
 @login_required
-def categories_new_plant_connection(plant_id):
+def categories_new_plant_connection(category_id, plant_id):
 
     p = Plant.query.get(plant_id)
-    c = Category.query.get(current_user.id)
+    c = Category.query.get(category_id)
 
-    connectionExists = PlantUser.query.filter_by(user=user, plant=p).first()
+    connectionExists = PlantCategory.query.filter_by(plant=p, category=c).first()
     if not connectionExists:
-        pu = PlantUser(plant=p, user=user)
+        pc = PlantCategory(plant=p, category=c)
 
-        db.session().add(pu)
+        db.session().add(pc)
         db.session().commit()
 
-    return redirect(url_for("plants_show_all"))
+    return redirect(url_for("categories_manage_one", category_id = category_id))
+
+@app.route("/delete/category/connection/<category_id>/<plant_id>")
+@login_required
+def categories_delete_plant_connection(category_id, plant_id):
+
+    p = Plant.query.get(plant_id)
+    c = Category.query.get(category_id)
+    pc = PlantCategory.query.filter_by(plant=p, category=c).first()
+    db.session.delete(pc)
+    db.session.commit()
+
+    return redirect(url_for("categories_manage_one", category_id=category_id))
 
 @app.route("/manage/categories/", methods=['GET'])
 @login_required
-def categories_manage():
-    return render_template("/categories/manage.html", kategoriat=Category.query.all())
+def categories_manage_all():
+    return render_template("/categories/manageall.html", kategoriat=Category.query.all())
 
 @app.route("/manage/categories/update/<category_id>", methods=['GET'])
 @login_required
@@ -242,9 +254,46 @@ def categories_update(category_id):
 
     db.session().commit()
 
-    return redirect(url_for("categories_manage"))
+    return redirect(url_for("categories_manage_all"))
 
-@app.route("/delete/category/<category_id>")
+@app.route("/manage/categories/<category_id>", methods=['GET'])
+@login_required
+def categories_manage_one(category_id):
+    c = Category.query.get(category_id)
+
+    c_plants = []
+    allPlants = Plant.query.all()
+
+    allInstances = PlantCategory.query.all()
+    for i in allInstances:
+        if i.category_id is int(category_id):
+            p = Plant.query.get(i.plant_id)
+            c_plants.append(p)
+
+    return render_template("/categories/manageone.html", category_id = c.id, nimi = c.nimi, c_plants = c_plants, plants=allPlants)
+
+@app.route("/manage/categories/search/name", methods=['POST'])
+def categories_search_plant():
+
+    searchform = SearchForm(request.form)
+
+    if not searchform.validate():
+        return render_template("categories/manageall.html", searchform = searchform)
+
+    nimi = searchform.nimi.data
+
+    result = Plant.find_plant_by_name(name=nimi)
+
+    if not result:
+        return render_template("plants/noresults.html")
+
+    results = []
+    p = Plant(result[1], result[2], result[3], result[4], result[5])
+    results.append(p)
+
+    return render_template("categories/searchresults.html", plants = results, plant_id = result[0])
+
+@app.route("/manage/categories/delete/<category_id>")
 @login_required
 def categories_delete(category_id):
 
@@ -258,4 +307,4 @@ def categories_delete(category_id):
     db.session.delete(c)
     db.session.commit()
 
-    return redirect(url_for("categories_manage"))
+    return redirect(url_for("categories_manage_all"))

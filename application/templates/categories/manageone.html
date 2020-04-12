@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <style>
+    th {
+      background-color: #9aad99;
+    }
+  </style>
+
+  <h4>Kategorian {{ nimi }} kasvit</h4>
+
+  <table class="table table-bordered">
+    <thead class="font-weight-lighter">
+      <tr>
+        <th>Kasvi</th>
+        <th>Latinankielinen nimi</th>
+        <th>Vedentarve</th>
+        <th>Lannoituksentarve</th>
+        <th>Valontarve</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for plant in c_plants %}
+      <tr>
+        <td>{{ plant.nimi }}</td>
+        <td>{{ plant.nimi_lat }}</td>
+        <td>{{ plant.vedentarve }}</td>
+        <td>{{ plant.lannoituksentarve }}</td>
+        <td>{{ plant.valontarve }}</td>
+        <td>
+          <form method="GET" action="{{ url_for('categories_delete_plant_connection', plant_id=plant.id, category_id=category_id) }}">
+            <input type="submit" value="Poista kategoriasta {{ nimi }}"/>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+
+  </table>
+
+  <h4>Kaikki kasvit</h4>
+
+  <table class="table table-bordered">
+    <thead class="font-weight-lighter">
+      <tr>
+        <th>Kasvi</th>
+        <th>Latinankielinen nimi</th>
+        <th>Vedentarve</th>
+        <th>Lannoituksentarve</th>
+        <th>Valontarve</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for plant in plants %}
+      <tr>
+        <td>{{ plant.nimi }}</td>
+        <td>{{ plant.nimi_lat }}</td>
+        <td>{{ plant.vedentarve }}</td>
+        <td>{{ plant.lannoituksentarve }}</td>
+        <td>{{ plant.valontarve }}</td>
+        <td>
+          <form method="GET" action="{{ url_for('categories_new_plant_connection', plant_id=plant.id, category_id=category_id) }}">
+            <input type="submit" value="Lisää kategoriaan {{ nimi }}"/>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+
+  </table>
+
+{% endblock %}

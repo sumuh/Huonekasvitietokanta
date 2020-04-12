@@ -26,18 +26,8 @@
         <td>{{ plant.lannoituksentarve }}</td>
         <td>{{ plant.valontarve }}</td>
         <td>
-          <form method="GET" action="{{ url_for('plants_update_form', plant_id=plant_id) }}">
-            <input type="submit" value="Muuta tietoja"/>
-          </form>
-        </td>
-        <td>
-          <form method="POST" action="{{ url_for('plants_delete', plant_id=plant_id) }}">
-            <input type="submit" value="Poista"/>
-          </form>
-        </td>
-        <td>
-          <form method="POST" action="{{ url_for('plants_new_user_connection', plant_id=plant_id) }}">
-            <input type="submit" value="Lisää omalle listalle"/>
+          <form method="GET" action="{{ url_for('categories_new_plant_connection', plant_id=plant.id, category_id=category_id) }}">
+            <input type="submit" value="Lisää kategoriaan {{ nimi }}"/>
           </form>
         </td>
       </tr>

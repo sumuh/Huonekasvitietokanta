@@ -6,6 +6,19 @@
       background-color: #9aad99;
     }
   </style>
+  <div class="row">
+    <div class="col-2">
+      <p>
+        Hae kategorian kasvit (tämä ei vielä toimi):
+      </p>
+    </div>
+    <div class="col-5">
+      <form method="POST" action="{{ url_for('categories_search') }}">
+        {{ searchcategoryform.kategoria }}
+        <input type="submit" value="Hae" disabled/>
+      </form>
+    </div>
+  </div>
 
   <h4>Kaikki kasvit</h4>
 
