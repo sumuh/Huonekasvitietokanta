@@ -147,13 +147,13 @@ def plants_search():
     result = Plant.find_plant_by_name(name=nimi)
 
     if not result:
-        return render_template("plants/noresults.html")
+        return render_template("plants/noresults.html", text = "Haulla ei löytynyt kasveja!")
 
     results = []
     p = Plant(result[1], result[2], result[3], result[4], result[5])
     results.append(p)
 
-    return render_template("plants/searchresults.html", plants = results, plant_id = result[0])
+    return render_template("plants/searchresults.html", plants = results, plant_id = result[0], header = "Tulokset haulla " + nimi)
 
 @app.route("/search/category", methods=['POST'])
 def categories_search():
@@ -163,15 +163,20 @@ def categories_search():
     if not searchcategoryform.validate():
         return render_template("plants/listall.html", searchcategoryform = searchcategoryform)
 
-    kategoria = searchcategoryform.kategoria.data
+    c_data = searchcategoryform.kategoria.data
 
-    result = Plant.find_plant_by_name(name=nimi)
+    c_plants = []
 
-    results = []
-    p = Plant.query.get(result)
-    results.append(p)
+    allInstances = PlantCategory.query.all()
+    for i in allInstances:
+        if i.category_id is int(c_data.id):
+            p = Plant.query.get(i.plant_id)
+            c_plants.append(p)
 
-    return render_template("plants/searchresults.html", plants = results)
+    if len(c_plants) is 0:
+        return render_template("plants/noresults.html", text = "Kategoriassa ei ole kasveja!")
+
+    return render_template("plants/searchresults.html", plants = c_plants, header = "Kategorian " + c_data.nimi + " kasvit")
 
 @app.route("/new/category/", methods=['GET'])
 @login_required
