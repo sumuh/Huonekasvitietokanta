@@ -43,7 +43,13 @@ def auth_register():
 
     username = form.username.data
     password = form.password.data
-    user = User(username, password)
+
+    role = "USER"
+
+    if username == "admin":
+        role = "ADMIN"
+
+    user = User(username, password, role)
     db.session.add(user)
     db.session.commit()
 

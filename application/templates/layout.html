@@ -20,6 +20,7 @@
             <li class="nav-item">
               <a class="nav-link" href="{{ url_for('plants_show_all') }} ">Kaikki kasvit</a>
             </li>
+            {% if current_user.role == "ADMIN" %}
             <li class="nav-item">
               <a class="nav-link" href="{{ url_for('plants_new_form') }} ">Lisää kasvi</a>
             </li>
@@ -29,6 +30,7 @@
             <li class="nav-item">
               <a class="nav-link" href="{{ url_for('categories_manage_all') }} ">Hallitse kategorioita</a>
             </li>
+            {% endif %}
             <li class="nav-item">
               <a class="nav-link" href="{{ url_for('plants_show_user') }} ">Oma lista</a>
             </li>

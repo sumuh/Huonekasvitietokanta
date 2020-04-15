@@ -27,18 +27,20 @@
         <td>{{ plant.vedentarve }}</td>
         <td>{{ plant.lannoituksentarve }}</td>
         <td>{{ plant.valontarve }}</td>
+        {% if current_user.role == "ADMIN" %}
         <td>
-          <form method="GET" action="{{ url_for('plants_update_form', plant_id=plant_id) }}">
+          <form method="GET" action="{{ url_for('plants_update_form', plant_id=plant.id) }}">
             <input type="submit" value="Muuta tietoja"/>
           </form>
         </td>
         <td>
-          <form method="POST" action="{{ url_for('plants_delete', plant_id=plant_id) }}">
+          <form method="POST" action="{{ url_for('plants_delete', plant_id=plant.id) }}">
             <input type="submit" value="Poista"/>
           </form>
         </td>
+        {% endif %}
         <td>
-          <form method="POST" action="{{ url_for('plants_new_user_connection', plant_id=plant_id) }}">
+          <form method="POST" action="{{ url_for('plants_new_user_connection', plant_id=plant.id, searchtype=searchtype, pre_data=pre_data) }}">
             <input type="submit" value="Lisää omalle listalle"/>
           </form>
         </td>
