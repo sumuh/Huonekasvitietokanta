@@ -5,9 +5,19 @@
     th {
       background-color: #9aad99;
     }
+    td.no_border {
+      border-right-style: hidden;
+      border-top-style: hidden;
+      border-bottom-style: hidden;
+    }
+    .custom_title {
+      font-size: 30px;
+    }
   </style>
 
-  <h4>Kategorian {{ nimi }} kasvit</h4>
+  <p class="custom_title">
+    Kategorian {{ nimi }} kasvit
+  </p>
 
   <table class="table table-bordered">
     <thead class="font-weight-lighter">
@@ -27,9 +37,11 @@
         <td>{{ plant.vedentarve }}</td>
         <td>{{ plant.lannoituksentarve }}</td>
         <td>{{ plant.valontarve }}</td>
-        <td>
-          <form method="GET" action="{{ url_for('categories_delete_plant_connection', plant_id=plant.id, category_id=category_id) }}">
-            <input type="submit" value="Poista kategoriasta {{ nimi }}"/>
+        <td class="no_border">
+          <form class="form-inline" method="GET" action="{{ url_for('categories_delete_plant_connection', plant_id=plant.id, category_id=category_id) }}">
+            <div class="input-group">
+              <button type="submit" class="btn btn-outline-dark">Poista kategoriasta {{ nimi }}</button>
+            </div>
           </form>
         </td>
       </tr>
@@ -38,7 +50,9 @@
 
   </table>
 
-  <h4>Kaikki kasvit</h4>
+  <p class="custom_title">
+    Kaikki kasvit
+  </p>
 
   <table class="table table-bordered">
     <thead class="font-weight-lighter">
@@ -58,9 +72,11 @@
         <td>{{ plant.vedentarve }}</td>
         <td>{{ plant.lannoituksentarve }}</td>
         <td>{{ plant.valontarve }}</td>
-        <td>
-          <form method="GET" action="{{ url_for('categories_new_plant_connection', plant_id=plant.id, category_id=category_id) }}">
-            <input type="submit" value="Lisää kategoriaan {{ nimi }}"/>
+        <td class="no_border">
+          <form class="form-inline" method="GET" action="{{ url_for('categories_new_plant_connection', plant_id=plant.id, category_id=category_id) }}">
+            <div class="input-group">
+              <button type="submit" class="btn btn-outline-dark">Lisää kategoriaan {{ nimi }}</button>
+            </div>
           </form>
         </td>
       </tr>

@@ -1,60 +1,54 @@
 {% extends "layout.html" %}
 
 {% block body %}
+
 <style>
   th {
     background-color: #9aad99;
   }
+  .custom_title {
+    font-size: 30px;
+  }
 </style>
+
 {{ error }}
 <div class="container">
   <div class="row">
     <div class="col">
-      <h4>Lisää kategorioita</h4>
-      <form method="POST" action="{{ url_for('categories_new') }}">
-          <table>
-              <tr>
-                  <td>
-                      {{ form.nimi.label }}
-                  </td>
-                  <td>
-                      {{ form.nimi }}
-                  </td>
-                  <td>
-                      <ul>
-                          {% for error in form.nimi.errors %}
-                          <li>{{ error }}</li>
-                          {% endfor %}
-                      </ul>
-                  </td>
-              </tr>
-              <tr>
-                  <td>
-                      {{ form.kuvaus.label }}
-                  </td>
-                  <td>
-                      {{ form.kuvaus }}
-                  </td>
-                  <td>
-                      <ul>
-                          {% for error in form.kuvaus.errors %}
-                          <li>{{ error }}</li>
-                          {% endfor %}
-                      </ul>
-                  </td>
-              </tr>
+      <p class="custom_title">
+        Lisää kategoria
+      </p>
 
-              <tr>
-                  <td colspan="2">
-                      <input type="submit" value="Lisää uusi kategoria" />
-                  </td>
-              </tr>
-          </table>
+      <form class="form-horizontal" method="POST" action="{{ url_for('categories_new') }}">
+
+        <div class="form-group">
+          <label for="nimi">{{ form.nimi.label }}</label>
+          {{ form.nimi(class="form-control") }}
+          <ul>
+            {% for error in form.nimi.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <div class="form-group">
+          <label for="kuvaus">{{ form.kuvaus.label }}</label>
+          {{ form.kuvaus(class="form-control") }}
+          <ul>
+            {% for error in form.kuvaus.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <button type="submit" class="btn btn-outline-dark">Lisää uusi kategoria</button>
+
       </form>
     </div>
+
     <div class="col">
-      <p>
-        Olemassa olevat kategoriat:
+      <p class="custom_title">
+        Olemassa olevat kategoriat
       </p>
       <table class="table table-bordered">
         <thead class="font-weight-lighter">

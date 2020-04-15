@@ -5,9 +5,17 @@
     th {
       background-color: #9aad99;
     }
+    td.no_border {
+      border-right-style: hidden;
+      border-top-style: hidden;
+      border-bottom-style: hidden;
+    }
+    .custom_title {
+      font-size: 30px;
+    }
   </style>
 
-  <h4>Omat kasvit</h4>
+  <p class="custom_title">Omat kasvit</p>
 
   <table class="table table-bordered">
     <thead class="font-weight-lighter">
@@ -27,9 +35,11 @@
         <td>{{ plant.vedentarve }}</td>
         <td>{{ plant.lannoituksentarve }}</td>
         <td>{{ plant.valontarve }}</td>
-        <td>
-          <form method="POST" action="{{ url_for('plants_delete_user_connection', plant_id=plant.id) }}">
-            <input type="submit" value="Poista omalta listalta"/>
+        <td class="no_border">
+          <form class="form-inline" method="POST" action="{{ url_for('plants_delete_user_connection', plant_id=plant.id) }}">
+            <div class="input-group">
+              <button type="submit" class="btn btn-outline-dark">Poista omalta listalta</button>
+            </div>
           </form>
         </td>
       </tr>

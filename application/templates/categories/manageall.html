@@ -1,13 +1,25 @@
 {% extends "layout.html" %}
 
 {% block body %}
+
 <style>
   th {
     background-color: #9aad99;
   }
+  td.no_border {
+    border-right-style: hidden;
+    border-top-style: hidden;
+    border-bottom-style: hidden;
+  }
+  .custom_title {
+    font-size: 30px;
+  }
 </style>
 
-<h4>Hallitse kategorioita</h4>
+<p class="custom_title">
+  Hallitse kategorioita
+</p>
+
 <table class="table table-bordered">
   <thead class="font-weight-lighter">
     <tr>
@@ -20,19 +32,25 @@
     <tr>
       <td>{{ k.nimi }}</td>
       <td>{{ k.kuvaus }}</td>
-      <td>
-        <form method="GET" action="{{ url_for('categories_update_form', category_id=k.id) }}">
-          <input type="submit" value="Muokkaa tietoja"/>
+      <td class="no_border">
+        <form class="form-inline" method="GET" action="{{ url_for('categories_update_form', category_id=k.id) }}">
+          <div class="input-group">
+            <button type="submit" class="btn btn-outline-dark">Muuta tietoja</button>
+          </div>
         </form>
       </td>
-      <td>
-        <form method="GET" action="{{ url_for('categories_delete', category_id=k.id) }}">
-          <input type="submit" value="Poista"/>
+      <td class="no_border">
+        <form class="form-inline" method="GET" action="{{ url_for('categories_delete', category_id=k.id) }}">
+          <div class="input-group">
+            <button type="submit" class="btn btn-outline-dark">Poista</button>
+          </div>
         </form>
       </td>
-      <td>
-        <form method="GET" action="{{ url_for('categories_manage_one', category_id=k.id) }}">
-          <input type="submit" value="Hallitse kasveja"/>
+      <td class="no_border">
+        <form class="form-inline" method="GET" action="{{ url_for('categories_manage_one', category_id=k.id) }}">
+          <div class="input-group">
+            <button type="submit" class="btn btn-outline-dark">Hallitse kasveja</button>
+          </div>
         </form>
       </td>
     </tr>

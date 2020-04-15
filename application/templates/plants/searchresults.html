@@ -5,9 +5,19 @@
     th {
       background-color: #9aad99;
     }
+    td.no_border {
+      border-right-style: hidden;
+      border-top-style: hidden;
+      border-bottom-style: hidden;
+    }
+    .custom_title {
+      font-size: 30px;
+    }
   </style>
 
-  <h4>{{ header }}</h4>
+  <p class="custom_title">
+    {{ header }}
+  </p>
 
   <table class="table table-bordered">
     <thead class="font-weight-lighter">
@@ -28,20 +38,26 @@
         <td>{{ plant.lannoituksentarve }}</td>
         <td>{{ plant.valontarve }}</td>
         {% if current_user.role == "ADMIN" %}
-        <td>
+        <td class="no_border">
           <form method="GET" action="{{ url_for('plants_update_form', plant_id=plant.id) }}">
-            <input type="submit" value="Muuta tietoja"/>
+            <div class="input-group">
+              <button type="submit" class="btn btn-outline-dark">Muuta tietoja</button>
+            </div>
           </form>
         </td>
-        <td>
+        <td class="no_border">
           <form method="POST" action="{{ url_for('plants_delete', plant_id=plant.id) }}">
-            <input type="submit" value="Poista"/>
+            <div class="input-group">
+              <button type="submit" class="btn btn-outline-dark">Poista</button>
+            </div>
           </form>
         </td>
         {% endif %}
-        <td>
-          <form method="POST" action="{{ url_for('plants_new_user_connection', plant_id=plant.id) }}">
-            <input type="submit" value="Lisää omalle listalle"/>
+        <td class="no_border">
+          <form class="form-inline" method="POST" action="{{ url_for('plants_new_user_connection', plant_id=plant.id) }}">
+            <div class="input-group">
+              <button type="submit" class="btn btn-outline-dark">Lisää omalle listalle</button>
+            </div>
           </form>
         </td>
       </tr>
