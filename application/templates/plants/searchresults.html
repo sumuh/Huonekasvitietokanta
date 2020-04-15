@@ -40,7 +40,7 @@
         </td>
         {% endif %}
         <td>
-          <form method="POST" action="{{ url_for('plants_new_user_connection', plant_id=plant.id, searchtype=searchtype, pre_data=pre_data) }}">
+          <form method="POST" action="{{ url_for('plants_new_user_connection', plant_id=plant.id) }}">
             <input type="submit" value="Lisää omalle listalle"/>
           </form>
         </td>

@@ -109,7 +109,7 @@ def plants_delete(plant_id):
 
 @app.route("/new/user/connection/<plant_id>", methods=["POST"])
 @login_required
-def plants_new_user_connection(plant_id, searchtype="none", pre_data=0):
+def plants_new_user_connection(plant_id):
 
     p = Plant.query.get(plant_id)
     user = User.query.get(current_user.id)
@@ -121,18 +121,7 @@ def plants_new_user_connection(plant_id, searchtype="none", pre_data=0):
         db.session().add(pu)
         db.session().commit()
 
-    print("           ")
-    print(searchtype)
-    print("           ")
-
-    if searchtype == "category":
-        return redirect(url_for("categories_search", pre_data=pre_data, pre_data_exists=True))
-    elif searchtype == "name":
-
-        return redirect(url_for("plants_search", pre_data=pre_data, pre_data_exists=True))
-    else:
-        print("-----------ALERT-------------")
-        return redirect(url_for("plants_show_all"))
+    return redirect(url_for("plants_show_all"))
 
 @app.route("/delete/user/connection/<plant_id>", methods=['POST'])
 @login_required
@@ -146,17 +135,14 @@ def plants_delete_user_connection(plant_id):
     return redirect(url_for("plants_show_user"))
 
 @app.route("/search/name", methods=['POST'])
-def plants_search(pre_data_exists=False, pre_data="none"):
+def plants_search():
 
-    if not pre_data_exists:
-        searchform = SearchForm(request.form)
+    searchform = SearchForm(request.form)
 
-        if not searchform.validate():
-            return render_template("plants/listall.html", searchform = searchform)
+    if not searchform.validate():
+        return render_template("plants/listall.html", searchform = searchform)
 
-        nimi = searchform.nimi.data
-    else:
-        nimi = pre_data
+    nimi = searchform.nimi.data
 
     result = Plant.find_plant_by_name(name=nimi)
 
@@ -168,22 +154,17 @@ def plants_search(pre_data_exists=False, pre_data="none"):
     p.id = result[0]
     results.append(p)
 
-    return render_template("plants/searchresults.html", plants = results, searchtype = "name", pre_data = nimi, header = "Tulokset haulla " + nimi)
+    return render_template("plants/searchresults.html", plants = results, header = "Tulokset haulla " + nimi)
 
 @app.route("/search/category", methods=['POST'])
-def categories_search(pre_data_exists=False, pre_data="none"):
+def categories_search():
 
-    if not pre_data_exists:
-        searchcategoryform = SearchCategoryForm(request.form)
+    searchcategoryform = SearchCategoryForm(request.form)
 
-        if not searchcategoryform.validate():
-            return render_template("plants/listall.html", searchcategoryform = searchcategoryform)
+    if not searchcategoryform.validate():
+        return render_template("plants/listall.html", searchcategoryform = searchcategoryform)
 
-        c_data = searchcategoryform.kategoria.data
-    else:
-        c_data = Category.query.get(pre_data)
-
-
+    c_data = searchcategoryform.kategoria.data
     c_plants = []
 
     allInstances = PlantCategory.query.all()
@@ -195,7 +176,7 @@ def categories_search(pre_data_exists=False, pre_data="none"):
     if len(c_plants) is 0:
         return render_template("plants/noresults.html", text = "Kategoriassa ei ole kasveja!")
 
-    return render_template("plants/searchresults.html", plants = c_plants, searchtype = "category", pre_data = c_data.id, header = "Kategorian " + c_data.nimi + " kasvit")
+    return render_template("plants/searchresults.html", plants = c_plants, header = "Kategorian " + c_data.nimi + " kasvit")
 
 @app.route("/new/category/", methods=['GET'])
 @login_required(role="ADMIN")
