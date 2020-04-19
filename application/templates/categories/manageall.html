@@ -28,26 +28,26 @@
     </tr>
   </thead>
   <tbody>
-    {% for k in kategoriat %}
+    {% for c in categories %}
     <tr>
-      <td>{{ k.nimi }}</td>
-      <td>{{ k.kuvaus }}</td>
+      <td>{{ c.name }}</td>
+      <td>{{ c.description }}</td>
       <td class="no_border">
-        <form class="form-inline" method="GET" action="{{ url_for('categories_update_form', category_id=k.id) }}">
+        <form class="form-inline" method="GET" action="{{ url_for('categories_update_form', category_id=c.id) }}">
           <div class="input-group">
             <button type="submit" class="btn btn-outline-dark">Muuta tietoja</button>
           </div>
         </form>
       </td>
       <td class="no_border">
-        <form class="form-inline" method="GET" action="{{ url_for('categories_delete', category_id=k.id) }}">
+        <form class="form-inline" method="GET" action="{{ url_for('categories_delete', category_id=c.id) }}">
           <div class="input-group">
             <button type="submit" class="btn btn-outline-dark">Poista</button>
           </div>
         </form>
       </td>
       <td class="no_border">
-        <form class="form-inline" method="GET" action="{{ url_for('categories_manage_one', category_id=k.id) }}">
+        <form class="form-inline" method="GET" action="{{ url_for('categories_manage_one', category_id=c.id) }}">
           <div class="input-group">
             <button type="submit" class="btn btn-outline-dark">Hallitse kasveja</button>
           </div>

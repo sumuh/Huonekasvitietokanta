@@ -7,6 +7,7 @@ from application.auth.forms import LoginForm, RegisterForm
 
 @app.route("/auth/login", methods = ["GET", "POST"])
 def auth_login():
+
     if request.method == "GET":
         return render_template("auth/loginform.html", form = LoginForm())
 
@@ -24,11 +25,13 @@ def auth_login():
 
 @app.route("/auth/logout")
 def auth_logout():
+
     logout_user()
     return redirect(url_for("index"))
 
 @app.route("/auth/register", methods = ["GET", "POST"])
 def auth_register():
+
     if request.method == "GET":
         return render_template("auth/register.html", form = RegisterForm())
 
@@ -37,7 +40,7 @@ def auth_register():
     if not form.validate():
         return render_template("auth/register.html", form = form)
 
-    usernameExists = User.query.filter_by(username=form.username.data).first()
+    usernameExists = User.query.filter_by(username = form.username.data).first()
     if usernameExists:
         return render_template("auth/register.html", form = form, error = "Käyttäjänimi on jo käytössä")
 

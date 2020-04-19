@@ -32,11 +32,11 @@
     <tbody>
       {% for plant in plants %}
       <tr>
-        <td>{{ plant.nimi }}</td>
-        <td>{{ plant.nimi_lat }}</td>
-        <td>{{ plant.vedentarve }}</td>
-        <td>{{ plant.lannoituksentarve }}</td>
-        <td>{{ plant.valontarve }}</td>
+        <td>{{ plant.name_fin }}</td>
+        <td>{{ plant.name_lat }}</td>
+        <td>{{ plant.water_need }}</td>
+        <td>{{ plant.fertilizer_need }}</td>
+        <td>{{ plant.light_need }}</td>
         {% if current_user.role == "ADMIN" %}
         <td class="no_border">
           <form method="GET" action="{{ url_for('plants_update_form', plant_id=plant.id) }}">

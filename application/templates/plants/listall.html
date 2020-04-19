@@ -26,7 +26,7 @@
 
           <div class="form-group">
             <label for="namesearch">Hae kasvia nimellä</label>
-            {{ searchform.nimi(class="form-control") }}
+            {{ searchplantform.name_fin(class="form-control") }}
           </div>
           <button type="submit" class="btn btn-outline-dark">Hae</button>
         </form>
@@ -36,7 +36,7 @@
         <form class="form-horizontal" method="POST" action="{{ url_for('categories_search') }}">
           <div class="form-group">
             <label for="categorysearch">Hae kategorian kasvit</label>
-            {{ searchcategoryform.kategoria(class="form-control") }}
+            {{ searchcategoryform.category(class="form-control") }}
           </div>
 
           <button type="submit" class="btn btn-outline-dark">Hae</button>
@@ -65,11 +65,11 @@
           <tbody>
             {% for plant in plants %}
             <tr>
-              <td>{{ plant.nimi }}</td>
-              <td>{{ plant.nimi_lat }}</td>
-              <td>{{ plant.vedentarve }}</td>
-              <td>{{ plant.lannoituksentarve }}</td>
-              <td>{{ plant.valontarve }}</td>
+              <td>{{ plant.name_fin }}</td>
+              <td>{{ plant.name_lat }}</td>
+              <td>{{ plant.water_need }}</td>
+              <td>{{ plant.fertilizer_need }}</td>
+              <td>{{ plant.light_need }}</td>
               {% if current_user.role == "ADMIN" %}
               <td class="no_border">
                 <form class="form-inline" method="GET" action="{{ url_for('plants_update_form', plant_id=plant.id) }}">
@@ -87,7 +87,7 @@
               </td>
               {% endif %}
               <td class="no_border">
-                <form class="form-inline" method="POST" action="{{ url_for('plants_new_user_connection', plant_id=plant.id, searchtype='none', pre_data=0) }}">
+                <form class="form-inline" method="POST" action="{{ url_for('plants_new_user_connection', plant_id=plant.id) }}">
                   <div class="input-group">
                     <button type="submit" class="btn btn-outline-dark">Lisää omalle listalle</button>
                   </div>

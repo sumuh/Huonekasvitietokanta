@@ -32,11 +32,11 @@
     <tbody>
       {% for plant in c_plants %}
       <tr>
-        <td>{{ plant.nimi }}</td>
-        <td>{{ plant.nimi_lat }}</td>
-        <td>{{ plant.vedentarve }}</td>
-        <td>{{ plant.lannoituksentarve }}</td>
-        <td>{{ plant.valontarve }}</td>
+        <td>{{ plant.name_fin }}</td>
+        <td>{{ plant.name_lat }}</td>
+        <td>{{ plant.water_need }}</td>
+        <td>{{ plant.fertilizer_need }}</td>
+        <td>{{ plant.light_need }}</td>
         <td class="no_border">
           <form class="form-inline" method="GET" action="{{ url_for('categories_delete_plant_connection', plant_id=plant.id, category_id=category_id) }}">
             <div class="input-group">
@@ -67,11 +67,11 @@
     <tbody>
       {% for plant in plants %}
       <tr>
-        <td>{{ plant.nimi }}</td>
+        <td>{{ plant.name_fin }}</td>
         <td>{{ plant.nimi_lat }}</td>
-        <td>{{ plant.vedentarve }}</td>
-        <td>{{ plant.lannoituksentarve }}</td>
-        <td>{{ plant.valontarve }}</td>
+        <td>{{ plant.water_need }}</td>
+        <td>{{ plant.fertilizer_need }}</td>
+        <td>{{ plant.light_need }}</td>
         <td class="no_border">
           <form class="form-inline" method="GET" action="{{ url_for('categories_new_plant_connection', plant_id=plant.id, category_id=category_id) }}">
             <div class="input-group">

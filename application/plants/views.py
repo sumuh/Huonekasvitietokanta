@@ -3,44 +3,37 @@ from flask_login import current_user
 
 from application import app, db, login_required
 from application.plants.models import Plant, PlantUser, Category, PlantCategory
-from application.plants.forms import PlantForm, SearchForm, CategoryForm, SearchCategoryForm
+from application.plants.forms import PlantForm, SearchPlantForm, CategoryForm, SearchCategoryForm, UpdateLastWateredForm, UpdateLastFertilizedForm
 from application.auth.models import User
 
 from sqlalchemy.sql import text
 
-@app.route("/show/user", methods=["GET"])
+@app.route("/show/user", methods = ["GET"])
 @login_required()
 def plants_show_user():
-    #userPlants = []
-
-    #allInstances = PlantUser.query.all()
-    #for i in allInstances:
-    #    if i.user_id == current_user.id:
-    #        p = Plant.query.get(i.plant_id)
-    #        userPlants.append(p)
 
     result = PlantUser.user_plants(current_user.id)
-    results = []
 
-    for r in result:
-        p = Plant.query.get(r)
-        results.append(p)
+    for sublist in result:
+        sublist[0] = Plant.query.get(sublist[0])
 
-    return render_template("plants/listuser.html", plants = results)
+    return render_template("plants/listuser.html", plants = result, lastwateredform = UpdateLastWateredForm(), lastfertilizedform = UpdateLastFertilizedForm())
 
 @app.route("/show/all")
 def plants_show_all():
+
     allPlants = Plant.query.all()
-    return render_template("plants/listall.html", plants = allPlants, searchform = SearchForm(), searchcategoryform = SearchCategoryForm())
+    return render_template("plants/listall.html", plants = allPlants, searchplantform = SearchPlantForm(), searchcategoryform = SearchCategoryForm())
 
 
 @app.route("/new/plant")
-@login_required(role="ADMIN")
+@login_required(role = "ADMIN")
 def plants_new_form():
+
     return render_template("plants/new.html", form = PlantForm())
 
-@app.route("/new/plant", methods=["POST"])
-@login_required(role="ADMIN")
+@app.route("/new/plant", methods = ["POST"])
+@login_required(role = "ADMIN")
 def plants_new():
 
     form = PlantForm(request.form)
@@ -48,17 +41,17 @@ def plants_new():
     if not form.validate():
         return render_template("plants/new.html", form = form)
 
-    nameExists = Plant.query.filter_by(nimi=form.nimi.data).first()
+    nameExists = Plant.query.filter_by(name_fin = form.name_fin.data).first()
     if nameExists:
         return render_template("plants/new.html", form = form, error = "Kasvi löytyy jo tietokannasta!")
 
-    nimi = form.nimi.data
-    nimi_lat = form.nimi_lat.data
-    vedentarve = form.vedentarve.data
-    lannoituksentarve = form.lannoituksentarve.data
-    valontarve = form.valontarve.data
+    name_fin = form.name_fin.data
+    name_lat = form.name_lat.data
+    water_need = form.water_need.data
+    fertilizer_need = form.fertilizer_need.data
+    light_need = form.light_need.data
 
-    p = Plant(nimi, nimi_lat, vedentarve, lannoituksentarve, valontarve)
+    p = Plant(name_fin, name_lat, water_need, fertilizer_need, light_need)
 
     db.session().add(p)
     db.session().commit()
@@ -66,13 +59,14 @@ def plants_new():
     return redirect(url_for("plants_show_all"))
 
 @app.route("/update/plant/<plant_id>/")
-@login_required(role="ADMIN")
+@login_required(role = "ADMIN")
 def plants_update_form(plant_id):
-    p = Plant.query.get(plant_id)
-    return render_template("plants/update.html", plant_id = plant_id, form = PlantForm(obj=p))
 
-@app.route("/update/plant/<plant_id>/", methods=["POST"])
-@login_required(role="ADMIN")
+    p = Plant.query.get(plant_id)
+    return render_template("plants/update.html", plant_id = plant_id, form = PlantForm(obj = p))
+
+@app.route("/update/plant/<plant_id>/", methods = ["POST"])
+@login_required(role = "ADMIN")
 def plants_update(plant_id):
 
     p = Plant.query.get(plant_id)
@@ -81,18 +75,18 @@ def plants_update(plant_id):
     if not form.validate():
         return render_template("plants/update.html", plant_id = plant_id, form = form)
 
-    p.nimi = form.nimi.data
-    p.nimi_lat = form.nimi_lat.data
-    p.vedentarve = form.vedentarve.data
-    p.lannoituksentarve = form.lannoituksentarve.data
-    p.valontarve = form.valontarve.data
+    p.name_fin = form.name_fin.data
+    p.name_lat = form.name_lat.data
+    p.water_need = form.water_need.data
+    p.fertilizer_need = form.fertilizer_need.data
+    p.light_need = form.light_need.data
 
     db.session().commit()
 
     return redirect(url_for("plants_show_all"))
 
-@app.route("/delete/plant/<plant_id>", methods=['POST'])
-@login_required(role="ADMIN")
+@app.route("/delete/plant/<plant_id>", methods = ["POST"])
+@login_required(role = "ADMIN")
 def plants_delete(plant_id):
 
     p = Plant.query.get(plant_id)
@@ -107,44 +101,44 @@ def plants_delete(plant_id):
 
     return redirect(url_for("plants_show_all"))
 
-@app.route("/new/user/connection/<plant_id>", methods=["POST"])
+@app.route("/new/user/connection/<plant_id>", methods = ["POST"])
 @login_required
 def plants_new_user_connection(plant_id):
 
     p = Plant.query.get(plant_id)
     user = User.query.get(current_user.id)
 
-    connectionExists = PlantUser.query.filter_by(user=user, plant=p).first()
+    connectionExists = PlantUser.query.filter_by(user = user, plant = p).first()
     if not connectionExists:
-        pu = PlantUser(plant=p, user=user)
+        pu = PlantUser(plant = p, user = user)
 
         db.session().add(pu)
         db.session().commit()
 
     return redirect(url_for("plants_show_all"))
 
-@app.route("/delete/user/connection/<plant_id>", methods=['POST'])
+@app.route("/delete/user/connection/<plant_id>", methods = ["POST"])
 @login_required
 def plants_delete_user_connection(plant_id):
 
     p = Plant.query.get(plant_id)
-    pu = PlantUser.query.filter_by(user=current_user, plant=p).first()
+    pu = PlantUser.query.filter_by(user = current_user, plant = p).first()
     db.session.delete(pu)
     db.session.commit()
 
     return redirect(url_for("plants_show_user"))
 
-@app.route("/search/name", methods=['POST'])
+@app.route("/search/name", methods = ["POST"])
 def plants_search():
 
-    searchform = SearchForm(request.form)
+    form = SearchPlantForm(request.form)
 
-    if not searchform.validate():
-        return render_template("plants/listall.html", searchform = searchform)
+    if not form.validate():
+        return render_template("plants/listall.html", searchplantform = form)
 
-    nimi = searchform.nimi.data
+    name_fin = form.name_fin.data
 
-    result = Plant.find_plant_by_name(name=nimi)
+    result = Plant.find_plant_by_name(name_fin = name_fin)
 
     if not result:
         return render_template("plants/noresults.html", text = "Haulla ei löytynyt kasveja!")
@@ -154,17 +148,17 @@ def plants_search():
     p.id = result[0]
     results.append(p)
 
-    return render_template("plants/searchresults.html", plants = results, header = "Tulokset haulla " + nimi)
+    return render_template("plants/searchresults.html", plants = results, header = "Tulokset haulla " + name_fin)
 
-@app.route("/search/category", methods=['POST'])
+@app.route("/search/category", methods = ["POST"])
 def categories_search():
 
-    searchcategoryform = SearchCategoryForm(request.form)
+    form = SearchCategoryForm(request.form)
 
-    if not searchcategoryform.validate():
-        return render_template("plants/listall.html", searchcategoryform = searchcategoryform)
+    if not form.validate():
+        return render_template("plants/listall.html", searchcategoryform = form)
 
-    c_data = searchcategoryform.kategoria.data
+    c_data = form.category.data
     c_plants = []
 
     allInstances = PlantCategory.query.all()
@@ -176,30 +170,31 @@ def categories_search():
     if len(c_plants) is 0:
         return render_template("plants/noresults.html", text = "Kategoriassa ei ole kasveja!")
 
-    return render_template("plants/searchresults.html", plants = c_plants, header = "Kategorian " + c_data.nimi + " kasvit")
+    return render_template("plants/searchresults.html", plants = c_plants, header = "Kategorian " + c_data.name + " kasvit")
 
-@app.route("/new/category/", methods=['GET'])
-@login_required(role="ADMIN")
+@app.route("/new/category/", methods = ["GET"])
+@login_required(role = "ADMIN")
 def categories_new_form():
-    return render_template("categories/new.html", form = CategoryForm(), kategoriat=Category.query.all())
 
-@app.route("/new/category/", methods=['POST'])
-@login_required(role="ADMIN")
+    return render_template("categories/new.html", form = CategoryForm(), categories=Category.query.all())
+
+@app.route("/new/category/", methods = ["POST"])
+@login_required(role = "ADMIN")
 def categories_new():
 
     form = CategoryForm(request.form)
 
     if not form.validate():
-        return render_template("categories/new.html", form = form, kategoriat=Category.query.all())
+        return render_template("categories/new.html", form = form, categories = Category.query.all())
 
-    categoryExists = Category.query.filter_by(nimi=form.nimi.data).first()
+    categoryExists = Category.query.filter_by(name = form.name.data).first()
     if categoryExists:
-        return render_template("categories/new.html", form = form, error = "Tämän niminen kategoria on jo olemassa!", kategoriat=Category.query.all())
+        return render_template("categories/new.html", form = form, error = "Tämän niminen kategoria on jo olemassa!", categories = Category.query.all())
 
-    nimi = form.nimi.data
-    kuvaus = form.kuvaus.data
+    name = form.name.data
+    description = form.description.data
 
-    c = Category(nimi, kuvaus)
+    c = Category(name, description)
 
     db.session().add(c)
     db.session().commit()
@@ -207,15 +202,15 @@ def categories_new():
     return redirect(url_for("categories_new"))
 
 @app.route("/new/category/connection/<category_id>/<plant_id>")
-@login_required(role="ADMIN")
+@login_required(role = "ADMIN")
 def categories_new_plant_connection(category_id, plant_id):
 
     p = Plant.query.get(plant_id)
     c = Category.query.get(category_id)
 
-    connectionExists = PlantCategory.query.filter_by(plant=p, category=c).first()
+    connectionExists = PlantCategory.query.filter_by(plant = p, category = c).first()
     if not connectionExists:
-        pc = PlantCategory(plant=p, category=c)
+        pc = PlantCategory(plant = p, category = c)
 
         db.session().add(pc)
         db.session().commit()
@@ -223,30 +218,32 @@ def categories_new_plant_connection(category_id, plant_id):
     return redirect(url_for("categories_manage_one", category_id = category_id))
 
 @app.route("/delete/category/connection/<category_id>/<plant_id>")
-@login_required(role="ADMIN")
+@login_required(role = "ADMIN")
 def categories_delete_plant_connection(category_id, plant_id):
 
     p = Plant.query.get(plant_id)
     c = Category.query.get(category_id)
-    pc = PlantCategory.query.filter_by(plant=p, category=c).first()
+    pc = PlantCategory.query.filter_by(plant = p, category = c).first()
     db.session.delete(pc)
     db.session.commit()
 
-    return redirect(url_for("categories_manage_one", category_id=category_id))
+    return redirect(url_for("categories_manage_one", category_id = category_id))
 
-@app.route("/manage/categories/", methods=['GET'])
-@login_required(role="ADMIN")
+@app.route("/manage/categories/", methods = ["GET"])
+@login_required(role = "ADMIN")
 def categories_manage_all():
-    return render_template("/categories/manageall.html", kategoriat=Category.query.all())
 
-@app.route("/manage/categories/update/<category_id>", methods=['GET'])
-@login_required(role="ADMIN")
+    return render_template("/categories/manageall.html", categories = Category.query.all())
+
+@app.route("/manage/categories/update/<category_id>", methods = ["GET"])
+@login_required(role = "ADMIN")
 def categories_update_form(category_id):
+
     c = Category.query.get(category_id)
     return render_template("/categories/update.html", category_id = category_id, form = CategoryForm(obj=c))
 
-@app.route("/manage/categories/update/<category_id>", methods=['POST'])
-@login_required(role="ADMIN")
+@app.route("/manage/categories/update/<category_id>", methods = ["POST"])
+@login_required(role = "ADMIN")
 def categories_update(category_id):
 
     c = Category.query.get(category_id)
@@ -255,16 +252,17 @@ def categories_update(category_id):
     if not form.validate():
         return render_template("categories/update.html", category_id = plant_id, form = form)
 
-    c.nimi = form.nimi.data
-    c.kuvaus = form.kuvaus.data
+    c.name = form.name.data
+    c.description = form.description.data
 
     db.session().commit()
 
     return redirect(url_for("categories_manage_all"))
 
-@app.route("/manage/categories/<category_id>", methods=['GET'])
-@login_required(role="ADMIN")
+@app.route("/manage/categories/<category_id>", methods = ["GET"])
+@login_required(role = "ADMIN")
 def categories_manage_one(category_id):
+
     c = Category.query.get(category_id)
 
     c_plants = []
@@ -276,20 +274,20 @@ def categories_manage_one(category_id):
             p = Plant.query.get(i.plant_id)
             c_plants.append(p)
 
-    return render_template("/categories/manageone.html", category_id = c.id, nimi = c.nimi, c_plants = c_plants, plants=allPlants)
+    return render_template("/categories/manageone.html", category_id = c.id, name = c.name, c_plants = c_plants, plants = allPlants)
 
-@app.route("/manage/categories/search/name", methods=['POST'])
-@login_required(role="ADMIN")
+@app.route("/manage/categories/search/name", methods = ["POST"])
+@login_required(role = "ADMIN")
 def categories_search_plant():
 
-    searchform = SearchForm(request.form)
+    form = SearchPlantForm(request.form)
 
-    if not searchform.validate():
-        return render_template("categories/manageall.html", searchform = searchform)
+    if not form.validate():
+        return render_template("categories/manageall.html", form = form)
 
-    nimi = searchform.nimi.data
+    name_fin = form.name_fin.data
 
-    result = Plant.find_plant_by_name(name=nimi)
+    result = Plant.find_plant_by_name(name_fin = name_fin)
 
     if not result:
         return render_template("plants/noresults.html")
@@ -301,7 +299,7 @@ def categories_search_plant():
     return render_template("categories/searchresults.html", plants = results, plant_id = result[0])
 
 @app.route("/manage/categories/delete/<category_id>")
-@login_required(role="ADMIN")
+@login_required(role = "ADMIN")
 def categories_delete(category_id):
 
     c = Category.query.get(category_id)
@@ -315,3 +313,31 @@ def categories_delete(category_id):
     db.session.commit()
 
     return redirect(url_for("categories_manage_all"))
+
+@app.route("/update/plantuser/lastwatered/<plant_id>", methods = ["POST"])
+@login_required()
+def plants_update_last_watered(plant_id):
+
+    form = UpdateLastWateredForm(request.form)
+
+    plantuser = PlantUser.query.filter_by(plant_id = plant_id, user_id = current_user.id).first()
+    plantuser.last_watered = form.newdate.data
+
+    db.session.add(plantuser)
+    db.session.commit()
+
+    return redirect(url_for("plants_show_user"))
+
+@app.route("/update/plantuser/lastfertilized/<plant_id>", methods = ["POST"])
+@login_required()
+def plants_update_last_fertilized(plant_id):
+
+    form = UpdateLastFertilizedForm(request.form)
+
+    plantuser = PlantUser.query.filter_by(plant_id = plant_id, user_id = current_user.id).first()
+    plantuser.last_fertilized = form.newdate.data
+    
+    db.session.add(plantuser)
+    db.session.commit()
+
+    return redirect(url_for("plants_show_user"))
