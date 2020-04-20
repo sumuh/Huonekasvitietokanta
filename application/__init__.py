@@ -1,6 +1,8 @@
 from flask import Flask
+from flask_datepicker import datepicker
 
 app = Flask(__name__)
+datepicker(app)
 
 from flask_sqlalchemy import SQLAlchemy
 

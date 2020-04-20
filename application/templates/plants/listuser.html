@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 
 {% block body %}
+
   <style>
     th {
       background-color: #9aad99;
@@ -14,7 +15,6 @@
       font-size: 30px;
     }
   </style>
-
 
   <p class="custom_title">Omat kasvit</p>
 
@@ -47,9 +47,11 @@
 
           <form class="form-inline" method="POST" action="{{ url_for('plants_update_last_watered', plant_id=sublist[0].id)}}">
 
-            <div class="input-group date", data-provide="datepicker">
+            <div class="input-group date" data-provide="datepicker" data-date-format="yyyy-mm-dd" data-date-week-start=1 data-date-language="fi">
               {{ lastwateredform.newdate(class="form-control", autocomplete="off") }}
             </div>
+
+
 
             <button type="submit" class="btn btn-outline-dark">Muuta</button>
 
@@ -62,7 +64,7 @@
 
           <form class="form-inline" method="POST" action="{{ url_for('plants_update_last_fertilized', plant_id=sublist[0].id)}}">
 
-            <div class="input-group date", data-provide="datepicker">
+            <div class="input-group date" data-provide="datepicker" data-date-format="yyyy-mm-dd" data-date-week-start=1 data-date-language="fi">
               {{ lastfertilizedform.newdate(class="form-control", autocomplete="off") }}
             </div>
 
@@ -84,19 +86,13 @@
 
   </table>
 
-  <div class="input-group date" data-provide="datepicker">
-    <input type="text" class="form-control">
-    <div class="input-group-addon">
-        <span class="glyphicon glyphicon-th"></span>
-    </div>
-</div>
+  <script>
+    var options = $.extend(
+        {},
+        $.datepicker.regional['fi'],
+    );
 
-<script type="text/javascript">
-  $(document).ready(function(){
-   $('#datepicker').datepicker({
-     language: 'fi'
-   });
-  });
-</script>
+    $("#calendar").datepicker(options);
+  </script>
 
 {% endblock %}

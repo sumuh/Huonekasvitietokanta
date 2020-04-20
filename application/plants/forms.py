@@ -45,12 +45,12 @@ class SearchCategoryForm(FlaskForm):
 
 class UpdateLastWateredForm(FlaskForm):
 
-    newdate = DateField("Date", format = "%d/%m/%Y")
+    newdate = DateField("Date", format = "%Y-%m-%d")
     class Meta:
         csrf = False
 
 class UpdateLastFertilizedForm(FlaskForm):
 
-    newdate = DateField("Date", format = "%d/%m/%Y")
+    newdate = DateField("Date")
     class Meta:
         csrf = False
