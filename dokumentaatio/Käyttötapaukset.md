@@ -1,5 +1,7 @@
 # Käyttötapaukset
 
+### Käyttäjän ja adminin käyttötapaukset
+
 * Käyttäjä voi tarkastella kaikkia tietokannassa olevia kasveja
 
   ```sql
@@ -68,7 +70,7 @@
   AND PlantUser.user_id = current_user.id;
   ```
 
-<p>&nbsp;</p>
+### Adminin käyttötapaukset
 
 * Admin voi lisätä tietokantaan uuden kasvin
 
@@ -91,8 +93,54 @@
   ```
 
 * Admin voi poistaa tietokannasta kasvin
+
+  ```sql
+  DELETE FROM Plant
+  WHERE Plant.id = plant_id;
+  ```
+
 * Admin voi lisätä tietokantaan uuden kategorian
+
+  ```sql
+  SELECT * FROM Category
+  WHERE Category.id = category_id;
+  ```
+  ```sql
+  INSERT INTO Category (name, description)
+  VALUES (name, description);
+  ```
+
 * Admin voi muokata tietokannassa olevaa kategoriaa
+
+  ```sql
+  UPDATE Category 
+  SET name = name, description = description
+  WHERE Category.id = category_id;
+  ```
+
 * Admin voi poistaa tietokannasta kategorian
+
+  ```sql
+  DELETE FROM Category
+  WHERE Category.id = category.id;
+  ```
+
 * Admin voi lisätä kasvin kategoriaan
+
+  ```sql
+  SELECT * FROM PlantCategory
+  WHERE PlantCategory.plant_id = plant_id
+  AND PlantCategory.category_id = category_id;
+  ```
+  ```sql
+  INSERT INTO PlantCategory (plant_id, category_id)
+  VALUES (plant_id, category_id);
+  ```
+
 * Admin voi poistaa kasvin kategoriasta
+
+  ```sql
+  DELETE FROM PlantCategory
+  WHERE PlantCategory.plant_id = plant_id
+  AND PlantCategory.category_id = category_id;
+  ```
