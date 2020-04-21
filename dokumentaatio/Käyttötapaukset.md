@@ -76,7 +76,7 @@
  SELECT * FROM Plant
  WHERE Plant.name_fin = name_fin;
  ```
-```sql
+ ```sql
  INSERT INTO Plant (name_fin, name_lat, water_need, fertilizer_need, light_need)
  VALUES (name_fin, name_lat, water_need, fertilizer_need, light_need);
  ```
@@ -85,7 +85,8 @@
 
  ```sql
  UPDATE Plant SET
- name_fin = name_fin, name_lat = name_lat, water_need = water_need, fertilizer_need = fertilizer_need, light_need = light_need
+ name_fin = name_fin, name_lat = name_lat, water_need = water_need, 
+ fertilizer_need = fertilizer_need, light_need = light_need
  WHERE Plant.id = plant_id;
  ```
 
