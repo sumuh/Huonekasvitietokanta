@@ -15,6 +15,8 @@ Admin-oikeuksilla varustettu tunnus on admin (salasana admin).
 
 ## Dokumentaatio
 
+[Käyttöohje](https://github.com/sumuh/Huonekasvitietokanta/blob/master/dokumentaatio/K%C3%A4ytt%C3%B6ohje.md)
+
 [Tietokantakaavio](https://github.com/sumuh/Huonekasvitietokanta/blob/master/dokumentaatio/Tietokantakaavio_eng.png)
 
 [Käyttötapaukset](https://github.com/sumuh/Huonekasvitietokanta/blob/master/dokumentaatio/K%C3%A4ytt%C3%B6tapaukset.md)
