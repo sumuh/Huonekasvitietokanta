@@ -47,11 +47,9 @@
 
           <form class="form-inline" method="POST" action="{{ url_for('plants_update_last_watered', plant_id=sublist[0].id)}}">
 
-            <div class="input-group date" data-provide="datepicker" data-date-format="yyyy-mm-dd" data-date-week-start=1 data-date-language="fi">
+            <div class="input-group date" data-provide="datepicker" data-date-format="yyyy-mm-dd" data-date-week-start=1 data-date-language="fi" data-date-today-highlight=true>
               {{ lastwateredform.newdate(class="form-control", autocomplete="off") }}
             </div>
-
-
 
             <button type="submit" class="btn btn-outline-dark">Muuta</button>
 
@@ -64,7 +62,7 @@
 
           <form class="form-inline" method="POST" action="{{ url_for('plants_update_last_fertilized', plant_id=sublist[0].id)}}">
 
-            <div class="input-group date" data-provide="datepicker" data-date-format="yyyy-mm-dd" data-date-week-start=1 data-date-language="fi">
+            <div class="input-group date" data-provide="datepicker" data-date-format="yyyy-mm-dd" data-date-week-start=1 data-date-language="fi" data-date-today-highlight=true>
               {{ lastfertilizedform.newdate(class="form-control", autocomplete="off") }}
             </div>
 
