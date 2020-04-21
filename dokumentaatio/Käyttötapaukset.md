@@ -68,31 +68,31 @@
   AND PlantUser.user_id = current_user.id;
   ```
 
- <p>&nbsp;</p>
+<p>&nbsp;</p>
 
- * Admin voi lisätä tietokantaan uuden kasvin
+* Admin voi lisätä tietokantaan uuden kasvin
 
- ```sql
- SELECT * FROM Plant
- WHERE Plant.name_fin = name_fin;
- ```
- ```sql
- INSERT INTO Plant (name_fin, name_lat, water_need, fertilizer_need, light_need)
- VALUES (name_fin, name_lat, water_need, fertilizer_need, light_need);
- ```
+  ```sql
+  SELECT * FROM Plant
+  WHERE Plant.name_fin = name_fin;
+  ```
+  ```sql
+  INSERT INTO Plant (name_fin, name_lat, water_need, fertilizer_need, light_need)
+  VALUES (name_fin, name_lat, water_need, fertilizer_need, light_need);
+  ```
 
- * Admin voi päivittää tietokannassa olevan kasvin tietoja
+* Admin voi päivittää tietokannassa olevan kasvin tietoja
 
- ```sql
- UPDATE Plant SET
- name_fin = name_fin, name_lat = name_lat, water_need = water_need, 
- fertilizer_need = fertilizer_need, light_need = light_need
- WHERE Plant.id = plant_id;
- ```
+  ```sql
+  UPDATE Plant SET
+  name_fin = name_fin, name_lat = name_lat, water_need = water_need, 
+  fertilizer_need = fertilizer_need, light_need = light_need
+  WHERE Plant.id = plant_id;
+  ```
 
- * Admin voi poistaa tietokannasta kasvin
- * Admin voi lisätä tietokantaan uuden kategorian
- * Admin voi muokata tietokannassa olevaa kategoriaa
- * Admin voi poistaa tietokannasta kategorian
- * Admin voi lisätä kasvin kategoriaan
- * Admin voi poistaa kasvin kategoriasta
+* Admin voi poistaa tietokannasta kasvin
+* Admin voi lisätä tietokantaan uuden kategorian
+* Admin voi muokata tietokannassa olevaa kategoriaa
+* Admin voi poistaa tietokannasta kategorian
+* Admin voi lisätä kasvin kategoriaan
+* Admin voi poistaa kasvin kategoriasta
