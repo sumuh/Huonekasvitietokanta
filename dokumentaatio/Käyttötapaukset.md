@@ -1,6 +1,9 @@
 # Käyttötapaukset
 
 * Käyttäjä voi tarkastella kaikkia tietokannassa olevia kasveja
+
+      SELECT * FROM Plant;
+  
 * Käyttäjä voi hakea kasvia sen suomenkielisen nimen perusteella
 * Käyttäjä voi hakea kaikki tietyn kategorian kasvit
 * Käyttäjä voi lisätä kasvin omalle listalleen
