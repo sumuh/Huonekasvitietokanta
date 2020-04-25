@@ -250,7 +250,7 @@ def categories_update(category_id):
     form = CategoryForm(request.form)
 
     if not form.validate():
-        return render_template("categories/update.html", category_id = plant_id, form = form)
+        return render_template("categories/update.html", category_id = category_id, form = form)
 
     c.name = form.name.data
     c.description = form.description.data
@@ -336,7 +336,7 @@ def plants_update_last_fertilized(plant_id):
 
     plantuser = PlantUser.query.filter_by(plant_id = plant_id, user_id = current_user.id).first()
     plantuser.last_fertilized = form.newdate.data
-    
+
     db.session.add(plantuser)
     db.session.commit()
 
