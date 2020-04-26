@@ -13,6 +13,9 @@
     .custom_title {
       font-size: 30px;
     }
+    .custom_title_small {
+      font-size: 16px;
+    }
     .top-buffer {
       margin-top:20px;
     }
@@ -28,6 +31,13 @@
             <label for="namesearch">Hae kasvia nimellä</label>
             {{ searchplantform.name_fin(class="form-control") }}
           </div>
+
+          {% if noresult_plant is defined %}
+            <p class="custom_title_small">
+              Haulla ei löytynyt tuloksia!
+            </p>
+          {% endif %}
+
           <button type="submit" class="btn btn-outline-dark">Hae</button>
         </form>
       </div>
@@ -38,6 +48,12 @@
             <label for="categorysearch">Hae kategorian kasvit</label>
             {{ searchcategoryform.category(class="form-control") }}
           </div>
+
+          {% if noresult_category is defined %}
+            <p class="custom_title_small">
+              Kategoriassa ei ole kasveja!
+            </p>
+          {% endif %}
 
           <button type="submit" class="btn btn-outline-dark">Hae</button>
 

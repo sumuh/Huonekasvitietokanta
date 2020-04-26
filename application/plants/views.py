@@ -133,15 +133,15 @@ def plants_search():
 
     form = SearchPlantForm(request.form)
 
-    if not form.validate():
-        return render_template("plants/listall.html", searchplantform = form)
-
     name_fin = form.name_fin.data
 
     result = Plant.find_plant_by_name(name_fin = name_fin)
 
+    allPlants = Plant.query.all()
+
     if not result:
-        return render_template("plants/noresults.html", text = "Haulla ei löytynyt kasveja!")
+        return render_template("plants/listall.html", plants = allPlants, searchplantform = SearchPlantForm(), searchcategoryform = SearchCategoryForm(),  noresult_plant = True)
+        #return render_template("plants/noresults.html", text = "Haulla ei löytynyt kasveja!")
 
     results = []
     p = Plant(result[1], result[2], result[3], result[4], result[5])
@@ -161,6 +161,8 @@ def categories_search():
     c_data = form.category.data
     c_plants = []
 
+    allPlants = Plant.query.all()
+
     allInstances = PlantCategory.query.all()
     for i in allInstances:
         if i.category_id is int(c_data.id):
@@ -168,7 +170,7 @@ def categories_search():
             c_plants.append(p)
 
     if len(c_plants) is 0:
-        return render_template("plants/noresults.html", text = "Kategoriassa ei ole kasveja!")
+        return render_template("plants/listall.html", plants = allPlants, searchplantform = SearchPlantForm(), searchcategoryform = SearchCategoryForm(), noresult_category = True)
 
     return render_template("plants/searchresults.html", plants = c_plants, header = "Kategorian " + c_data.name + " kasvit")
 
