@@ -13,10 +13,20 @@
     .custom_title {
       font-size: 30px;
     }
+    .custom_title_smaller {
+      font-size: 20px;
+    }
   </style>
 
   <p class="custom_title">
     {{ header }}
+  </p>
+  <p class="custom_title_smaller">
+    {% if number == 1 %}
+      Haulla löytyi {{ number }} kasvi
+    {% else %}
+      Haulla löytyi {{ number }} kasvia
+    {% endif %}
   </p>
 
   <table class="table table-bordered">

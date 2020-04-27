@@ -36,6 +36,29 @@ class Plant(db.Model):
             response.extend(row)
         return response
 
+    @staticmethod
+    def all_plants_number():
+
+        stmt = text("SELECT COUNT(Plant.id) FROM Plant")
+
+        res = db.engine.execute(stmt)
+        for row in res:
+            number = row[0]
+        return number
+
+    #Tämän kyselyn olisi voinut tehdä helpommin laskemalla PlantUser-taulun rivit, mutta jotta sain tehtyä pakolliset monta taulua yhdistävät järkevät yhteenvetokyselyt, jouduin tekemään tämän "vaikeamman kautta"
+    @staticmethod
+    def user_plants_number(current_id):
+
+        stmt = text("SELECT COUNT(Plant.id) FROM Plant"
+                    " LEFT JOIN PlantUser ON Plant.id = PlantUser.plant_id"
+                    " LEFT JOIN Account ON PlantUser.user_id = Account.id"
+                    " WHERE Account.id = :current").params(current = current_id)
+        res = db.engine.execute(stmt)
+        for row in res:
+            number = row[0]
+        return number
+
 class PlantUser(db.Model):
 
     __tablename__ = 'plantuser'
@@ -87,6 +110,29 @@ class Category(db.Model):
 
         self.name = name
         self.description = description
+    @staticmethod
+    def categories_number():
+
+        stmt = text("SELECT COUNT(Category.id) FROM Category")
+
+        res = db.engine.execute(stmt)
+        for row in res:
+            number = row[0]
+        return number
+
+    #Tämänkin kyselyn olisi toki voinut tehdä laskemalla PlantCategoryn rivit
+    @staticmethod
+    def category_plants_number(category_id):
+
+        stmt = text("SELECT COUNT(Plant.id) FROM Plant"
+                    " LEFT JOIN PlantCategory ON Plant.id = PlantCategory.plant_id"
+                    " LEFT JOIN Category ON PlantCategory.category_id = Category.id"
+                    " WHERE Category.id = :category_id").params(category_id = category_id)
+
+        res = db.engine.execute(stmt)
+        for row in res:
+            number = row[0]
+        return number
 
     @staticmethod
     def category_query():

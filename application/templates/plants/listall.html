@@ -13,6 +13,9 @@
     .custom_title {
       font-size: 30px;
     }
+    .custom_title_smaller {
+      font-size: 20px;
+    }
     .custom_title_small {
       font-size: 16px;
     }
@@ -66,6 +69,13 @@
 
         <p class="custom_title">
           Kaikki kasvit
+        </p>
+        <p class="custom_title_smaller">
+          {% if number == 1 %}
+            Yhteensä {{ number }} kasvi
+          {% else %}
+            Yhteensä {{ number }} kasvia
+          {% endif %}
         </p>
 
         <table class="table table-bordered">

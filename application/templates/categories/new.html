@@ -9,6 +9,9 @@
   .custom_title {
     font-size: 30px;
   }
+  .custom_title_smaller {
+    font-size: 20px;
+  }
 </style>
 
 {{ error }}
@@ -47,9 +50,18 @@
     </div>
 
     <div class="col">
+
       <p class="custom_title">
         Olemassa olevat kategoriat
       </p>
+      <p class="custom_title_smaller">
+        {% if number == 1 %}
+          Yhteensä {{ number }} kategoria
+        {% else %}
+          Yhteensä {{ number }} kategoriaa
+        {% endif %}
+      </p>
+
       <table class="table table-bordered">
         <thead class="font-weight-lighter">
           <tr>

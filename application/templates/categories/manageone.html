@@ -13,10 +13,20 @@
     .custom_title {
       font-size: 30px;
     }
+    .custom_title_smaller {
+      font-size: 20px;
+    }
   </style>
 
   <p class="custom_title">
     Kategorian {{ nimi }} kasvit
+  </p>
+  <p class="custom_title_smaller">
+    {% if number_one == 1 %}
+      Kategoriassa on {{ number_one }} kasvi
+    {% else %}
+      Kategoriassa on {{ number_one }} kasvia
+    {% endif %}
   </p>
 
   <table class="table table-bordered">
@@ -52,6 +62,13 @@
 
   <p class="custom_title">
     Kaikki kasvit
+  </p>
+  <p class="custom_title_smaller">
+    {% if number_all == 1 %}
+      Yhteensä {{ number_all }} kasvi
+    {% else %}
+      Yhteensä {{ number_all }} kasvia
+    {% endif %}
   </p>
 
   <table class="table table-bordered">

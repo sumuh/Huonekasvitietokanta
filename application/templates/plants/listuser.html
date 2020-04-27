@@ -14,9 +14,19 @@
     .custom_title {
       font-size: 30px;
     }
+    .custom_title_smaller {
+      font-size: 20px;
+    }
   </style>
 
   <p class="custom_title">Omat kasvit</p>
+  <p class="custom_title_smaller">
+    {% if number == 1 %}
+      Omistat {{ number }} kasvin
+    {% else %}
+      Omistat {{ number }} kasvia
+    {% endif %}
+  </p>
 
   <table class="table table-bordered">
     <thead class="font-weight-lighter">

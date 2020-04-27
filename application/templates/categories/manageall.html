@@ -14,10 +14,20 @@
   .custom_title {
     font-size: 30px;
   }
+  .custom_title_smaller {
+    font-size: 20px;
+  }
 </style>
 
 <p class="custom_title">
   Hallitse kategorioita
+</p>
+<p class="custom_title_smaller">
+  {% if number == 1 %}
+    Yhteensä {{ number }} kategoria
+  {% else %}
+    Yhteensä {{ number }} kategoriaa
+  {% endif %}
 </p>
 
 <table class="table table-bordered">

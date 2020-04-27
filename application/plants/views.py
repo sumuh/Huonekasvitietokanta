@@ -14,25 +14,35 @@ def plants_show_user():
 
     result = PlantUser.user_plants(current_user.id)
 
+    number = Plant.user_plants_number(current_user.id)
+
     #replace id of plant with plant object, format the dates
     for sublist in result:
         sublist[0] = Plant.query.get(sublist[0])
 
-        newformat_split_w = sublist[1].split("-")
-        newformat_w = newformat_split_w[2] + "." + newformat_split_w[1] + "." + newformat_split_w[0]
-        sublist[1] = newformat_w
+        if sublist[1] != None:
+            newformat_split_w = sublist[1].split("-")
+            newformat_w = newformat_split_w[2] + "." + newformat_split_w[1] + "." + newformat_split_w[0]
+            sublist[1] = newformat_w
+        else:
+            sublist[1] = "Ei valittua päivää"
 
-        newformat_split_f = sublist[2].split("-")
-        newformat_f = newformat_split_f[2] + "." + newformat_split_f[1] + "." + newformat_split_f[0]
-        sublist[2] = newformat_f
+        if sublist[2] != None:
+            newformat_split_f = sublist[2].split("-")
+            newformat_f = newformat_split_f[2] + "." + newformat_split_f[1] + "." + newformat_split_f[0]
+            sublist[2] = newformat_f
+        else:
+            sublist[2] = "Ei valittua päivää"
 
-    return render_template("plants/listuser.html", plants = result, lastwateredform = UpdateLastWateredForm(), lastfertilizedform = UpdateLastFertilizedForm())
+    return render_template("plants/listuser.html", plants = result, lastwateredform = UpdateLastWateredForm(), lastfertilizedform = UpdateLastFertilizedForm(), number = number)
 
 @app.route("/show/all")
 def plants_show_all():
 
     allPlants = Plant.query.all()
-    return render_template("plants/listall.html", plants = allPlants, searchplantform = SearchPlantForm(), searchcategoryform = SearchCategoryForm())
+    number = Plant.all_plants_number()
+
+    return render_template("plants/listall.html", plants = allPlants, searchplantform = SearchPlantForm(), searchcategoryform = SearchCategoryForm(), number = number)
 
 
 @app.route("/new/plant")
@@ -147,16 +157,17 @@ def plants_search():
     result = Plant.find_plant_by_name(name_fin = name_fin)
 
     allPlants = Plant.query.all()
+    number = Plant.all_plants_number()
 
     if not result:
-        return render_template("plants/listall.html", plants = allPlants, searchplantform = SearchPlantForm(), searchcategoryform = SearchCategoryForm(),  noresult_plant = True)
+        return render_template("plants/listall.html", plants = allPlants, searchplantform = SearchPlantForm(), searchcategoryform = SearchCategoryForm(),  noresult_plant = True, number = number)
 
     results = []
     p = Plant(result[1], result[2], result[3], result[4], result[5])
     p.id = result[0]
     results.append(p)
 
-    return render_template("plants/searchresults.html", plants = results, header = "Tulokset haulla " + name_fin)
+    return render_template("plants/searchresults.html", plants = results, header = "Tulokset haulla " + name_fin, number = 1)
 
 @app.route("/search/category", methods = ["POST"])
 def categories_search():
@@ -170,6 +181,7 @@ def categories_search():
     c_plants = []
 
     allPlants = Plant.query.all()
+    number = Plant.all_plants_number()
 
     allInstances = PlantCategory.query.all()
     for i in allInstances:
@@ -178,15 +190,17 @@ def categories_search():
             c_plants.append(p)
 
     if len(c_plants) == 0:
-        return render_template("plants/listall.html", plants = allPlants, searchplantform = SearchPlantForm(), searchcategoryform = SearchCategoryForm(), noresult_category = True)
+        return render_template("plants/listall.html", plants = allPlants, searchplantform = SearchPlantForm(), searchcategoryform = SearchCategoryForm(), noresult_category = True, number = number)
 
-    return render_template("plants/searchresults.html", plants = c_plants, header = "Kategorian " + c_data.name + " kasvit")
+    return render_template("plants/searchresults.html", plants = c_plants, header = "Kategorian " + c_data.name + " kasvit", number = len(c_plants))
 
 @app.route("/new/category/", methods = ["GET"])
 @login_required(role = "ADMIN")
 def categories_new_form():
 
-    return render_template("categories/new.html", form = CategoryForm(), categories=Category.query.all())
+    number = Category.categories_number()
+
+    return render_template("categories/new.html", form = CategoryForm(), categories = Category.query.all(), number = number)
 
 @app.route("/new/category/", methods = ["POST"])
 @login_required(role = "ADMIN")
@@ -243,7 +257,9 @@ def categories_delete_plant_connection(category_id, plant_id):
 @login_required(role = "ADMIN")
 def categories_manage_all():
 
-    return render_template("/categories/manageall.html", categories = Category.query.all())
+    number = Category.categories_number()
+
+    return render_template("/categories/manageall.html", categories = Category.query.all(), number = number)
 
 @app.route("/manage/categories/update/<category_id>", methods = ["GET"])
 @login_required(role = "ADMIN")
@@ -275,6 +291,9 @@ def categories_manage_one(category_id):
 
     c = Category.query.get(category_id)
 
+    number_one = Category.category_plants_number(category_id)
+    number_all = Plant.all_plants_number()
+
     c_plants = []
     allPlants = Plant.query.all()
 
@@ -284,7 +303,7 @@ def categories_manage_one(category_id):
             p = Plant.query.get(i.plant_id)
             c_plants.append(p)
 
-    return render_template("/categories/manageone.html", category_id = c.id, name = c.name, c_plants = c_plants, plants = allPlants)
+    return render_template("/categories/manageone.html", category_id = c.id, name = c.name, c_plants = c_plants, plants = allPlants, number_one = number_one, number_all = number_all)
 
 @app.route("/manage/categories/search/name", methods = ["POST"])
 @login_required(role = "ADMIN")
