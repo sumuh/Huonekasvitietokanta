@@ -1,5 +1,27 @@
 # Käyttötapaukset
 
+### Kirjautuminen ja rekisteröityminen
+
+* Käyttäjä voi rekisteröityä
+
+  ```sql
+  SELECT * FROM User
+  WHERE User.username = username
+  ```
+
+  ```sql
+  INSERT INTO User (username, password, role) 
+  VALUES (username, password, role)
+  ```
+  
+ * Käyttäjä voi kirjautua
+ 
+   ```sql
+   SELECT * FROM User
+   WHERE User.username = username
+   AND User.password = password
+   ```
+
 ### Käyttäjän ja adminin käyttötapaukset
 
 * Käyttäjä voi tarkastella kaikkia tietokannassa olevia kasveja
