@@ -21,6 +21,7 @@
    WHERE User.username = username
    AND User.password = password
    ```
+ * Käyttäjä voi kirjautua ulos
 
 ### Käyttäjän ja adminin käyttötapaukset
 
