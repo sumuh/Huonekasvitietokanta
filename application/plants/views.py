@@ -14,8 +14,17 @@ def plants_show_user():
 
     result = PlantUser.user_plants(current_user.id)
 
+    #replace id of plant with plant object, format the dates
     for sublist in result:
         sublist[0] = Plant.query.get(sublist[0])
+
+        newformat_split_w = sublist[1].split("-")
+        newformat_w = newformat_split_w[2] + "." + newformat_split_w[1] + "." + newformat_split_w[0]
+        sublist[1] = newformat_w
+
+        newformat_split_f = sublist[2].split("-")
+        newformat_f = newformat_split_f[2] + "." + newformat_split_f[1] + "." + newformat_split_f[0]
+        sublist[2] = newformat_f
 
     return render_template("plants/listuser.html", plants = result, lastwateredform = UpdateLastWateredForm(), lastfertilizedform = UpdateLastFertilizedForm())
 
@@ -141,7 +150,6 @@ def plants_search():
 
     if not result:
         return render_template("plants/listall.html", plants = allPlants, searchplantform = SearchPlantForm(), searchcategoryform = SearchCategoryForm(),  noresult_plant = True)
-        #return render_template("plants/noresults.html", text = "Haulla ei löytynyt kasveja!")
 
     results = []
     p = Plant(result[1], result[2], result[3], result[4], result[5])
@@ -169,7 +177,7 @@ def categories_search():
             p = Plant.query.get(i.plant_id)
             c_plants.append(p)
 
-    if len(c_plants) is 0:
+    if len(c_plants) == 0:
         return render_template("plants/listall.html", plants = allPlants, searchplantform = SearchPlantForm(), searchcategoryform = SearchCategoryForm(), noresult_category = True)
 
     return render_template("plants/searchresults.html", plants = c_plants, header = "Kategorian " + c_data.name + " kasvit")
