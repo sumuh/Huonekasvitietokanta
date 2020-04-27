@@ -20,12 +20,18 @@ def plants_show_user():
     for sublist in result:
         sublist[0] = Plant.query.get(sublist[0])
 
+        if (type(sublist[1]) != "str"):
+            str(sublist[1])
+
         if sublist[1] != None:
             newformat_split_w = sublist[1].split("-")
             newformat_w = newformat_split_w[2] + "." + newformat_split_w[1] + "." + newformat_split_w[0]
             sublist[1] = newformat_w
         else:
             sublist[1] = "Ei valittua päivää"
+
+        if (type(sublist[2]) != "str"):
+            str(sublist[2])
 
         if sublist[2] != None:
             newformat_split_f = sublist[2].split("-")
