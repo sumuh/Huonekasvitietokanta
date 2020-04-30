@@ -3,26 +3,17 @@
 {% block body %}
 
 <style>
-  th {
-    background-color: #9aad99;
-  }
-  td.no_border {
-    border-right-style: hidden;
-    border-top-style: hidden;
-    border-bottom-style: hidden;
-  }
-  .custom_title {
-    font-size: 30px;
-  }
-  .custom_title_smaller {
-    font-size: 20px;
-  }
+td.no-border {
+  border-right-style: hidden;
+  border-top-style: hidden;
+  border-bottom-style: hidden;
+}
 </style>
 
-<p class="custom_title">
+<p class="custom-title-large">
   Hallitse kategorioita
 </p>
-<p class="custom_title_smaller">
+<p class="custom-title-medium">
   {% if number == 1 %}
     Yhteensä {{ number }} kategoria
   {% else %}
@@ -42,21 +33,21 @@
     <tr>
       <td>{{ c.name }}</td>
       <td>{{ c.description }}</td>
-      <td class="no_border">
+      <td class="no-border">
         <form class="form-inline" method="GET" action="{{ url_for('categories_update_form', category_id=c.id) }}">
           <div class="input-group">
             <button type="submit" class="btn btn-outline-dark">Muuta tietoja</button>
           </div>
         </form>
       </td>
-      <td class="no_border">
+      <td class="no-border">
         <form class="form-inline" method="GET" action="{{ url_for('categories_delete', category_id=c.id) }}">
           <div class="input-group">
             <button type="submit" class="btn btn-outline-dark">Poista</button>
           </div>
         </form>
       </td>
-      <td class="no_border">
+      <td class="no-border">
         <form class="form-inline" method="GET" action="{{ url_for('categories_manage_one', category_id=c.id) }}">
           <div class="input-group">
             <button type="submit" class="btn btn-outline-dark">Hallitse kasveja</button>

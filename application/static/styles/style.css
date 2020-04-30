@@ -1,0 +1,21 @@
+th {
+  background-color: #9aad99;
+}
+.custom-title-large {
+  font-size: 30px;
+}
+.custom-title-medium {
+  font-size: 20px;
+}
+.custom-title-small {
+  font-size: 16px;
+}
+.padded-top-large {
+  margin-top: 20px;
+}
+.padded-top-medium {
+  margin-top: 10px;
+}
+.padded-top-small {
+  margin-top: 5px;
+}

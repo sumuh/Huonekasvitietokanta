@@ -84,6 +84,7 @@ def plants_new():
 def plants_update_form(plant_id):
 
     p = Plant.query.get(plant_id)
+    
     return render_template("plants/update.html", plant_id = plant_id, form = PlantForm(obj = p))
 
 @app.route("/update/plant/<plant_id>/", methods = ["POST"])

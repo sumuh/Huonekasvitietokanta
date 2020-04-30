@@ -1,136 +1,119 @@
 {% extends "layout.html" %}
 
 {% block body %}
-  <style>
-    th {
-      background-color: #9aad99;
-    }
-    td.no_border {
-      border-right-style: hidden;
-      border-top-style: hidden;
-      border-bottom-style: hidden;
-    }
-    .custom_title {
-      font-size: 30px;
-    }
-    .custom_title_smaller {
-      font-size: 20px;
-    }
-    .custom_title_small {
-      font-size: 16px;
-    }
-    .top-buffer {
-      margin-top:20px;
-    }
-  </style>
 
-  <div class="container-fluid">
+<style>
+td.no-border {
+  border-right-style: hidden;
+  border-top-style: hidden;
+  border-bottom-style: hidden;
+}
+</style>
 
-    <div class="row">
-      <div class="col-md-auto">
-        <form class="form-horizontal" method="POST" action="{{ url_for('plants_search') }}">
+<div class="container-fluid">
 
-          <div class="form-group">
-            <label for="namesearch">Hae kasvia nimellä</label>
-            {{ searchplantform.name_fin(class="form-control") }}
-          </div>
+  <div class="row">
+    <div class="col-md-auto">
+      <form class="form-horizontal" method="POST" action="{{ url_for('plants_search') }}">
 
-          {% if noresult_plant is defined %}
-            <p class="custom_title_small">
-              Haulla ei löytynyt tuloksia!
-            </p>
-          {% endif %}
+        <div class="form-group">
+          <label for="namesearch">Hae kasvia nimellä</label>
+          {{ searchplantform.name_fin(class="form-control") }}
+        </div>
 
-          <button type="submit" class="btn btn-outline-dark">Hae</button>
-        </form>
-      </div>
+        {% if noresult_plant is defined %}
+          <p class="custom-title-small">
+            Haulla ei löytynyt tuloksia!
+          </p>
+        {% endif %}
 
-      <div class="col-md-auto">
-        <form class="form-horizontal" method="POST" action="{{ url_for('categories_search') }}">
-          <div class="form-group">
-            <label for="categorysearch">Hae kategorian kasvit</label>
-            {{ searchcategoryform.category(class="form-control") }}
-          </div>
-
-          {% if noresult_category is defined %}
-            <p class="custom_title_small">
-              Kategoriassa ei ole kasveja!
-            </p>
-          {% endif %}
-
-          <button type="submit" class="btn btn-outline-dark">Hae</button>
-
-        </form>
-      </div>
+        <button type="submit" class="btn btn-outline-dark">Hae</button>
+      </form>
     </div>
 
-    <div class="row top-buffer">
-      <div class="col-md">
+    <div class="col-md-auto">
+      <form class="form-horizontal" method="POST" action="{{ url_for('categories_search') }}">
+        <div class="form-group">
+          <label for="categorysearch">Hae kategorian kasvit</label>
+          {{ searchcategoryform.category(class="form-control") }}
+        </div>
 
-        <p class="custom_title">
-          Kaikki kasvit
-        </p>
-        <p class="custom_title_smaller">
-          {% if number == 1 %}
-            Yhteensä {{ number }} kasvi
-          {% else %}
-            Yhteensä {{ number }} kasvia
-          {% endif %}
-        </p>
+        {% if noresult_category is defined %}
+          <p class="custom-title-small">
+            Kategoriassa ei ole kasveja!
+          </p>
+        {% endif %}
 
-        <table class="table table-bordered">
-          <thead class="font-weight-lighter">
-            <tr>
-              <th>Kasvi</th>
-              <th>Latinankielinen nimi</th>
-              <th>Vedentarve</th>
-              <th>Lannoituksentarve</th>
-              <th>Valontarve</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for plant in plants %}
-            <tr>
-              <td>{{ plant.name_fin }}</td>
-              <td>{{ plant.name_lat }}</td>
-              <td>{{ plant.water_need }}</td>
-              <td>{{ plant.fertilizer_need }}</td>
-              <td>{{ plant.light_need }}</td>
-              {% if current_user.role == "ADMIN" %}
-              <td class="no_border">
-                <form class="form-inline" method="GET" action="{{ url_for('plants_update_form', plant_id=plant.id) }}">
-                  <div class="input-group">
-                    <button type="submit" class="btn btn-outline-dark">Muuta tietoja</button>
-                  </div>
-                </form>
-              </td>
-              <td class="no_border">
-                <form class="form-inline" method="POST" action="{{ url_for('plants_delete', plant_id=plant.id) }}">
-                  <div class="input-group">
-                    <button type="submit" class="btn btn-outline-dark">Poista</button>
-                  </div>
-                </form>
-              </td>
-              {% endif %}
-              <td class="no_border">
-                <form class="form-inline" method="POST" action="{{ url_for('plants_new_user_connection', plant_id=plant.id) }}">
-                  <div class="input-group">
-                    <button type="submit" class="btn btn-outline-dark">Lisää omalle listalle</button>
-                  </div>
-                </form>
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
+        <button type="submit" class="btn btn-outline-dark">Hae</button>
 
-        </table>
-      </div>
+      </form>
     </div>
+  </div>
 
+  <div class="row top-buffer">
+    <div class="col-md">
 
+      <p class="custom-title-large">
+        Kaikki kasvit
+      </p>
+      <p class="custom-title-medium">
+        {% if number == 1 %}
+          Yhteensä {{ number }} kasvi
+        {% else %}
+          Yhteensä {{ number }} kasvia
+        {% endif %}
+      </p>
+
+      <table class="table table-bordered">
+        <thead class="font-weight-lighter">
+          <tr>
+            <th>Kasvi</th>
+            <th>Latinankielinen nimi</th>
+            <th>Vedentarve</th>
+            <th>Lannoituksentarve</th>
+            <th>Valontarve</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for plant in plants %}
+          <tr>
+            <td>{{ plant.name_fin }}</td>
+            <td>{{ plant.name_lat }}</td>
+            <td>{{ plant.water_need }}</td>
+            <td>{{ plant.fertilizer_need }}</td>
+            <td>{{ plant.light_need }}</td>
+            {% if current_user.role == "ADMIN" %}
+            <td class="no-border">
+              <form class="form-inline" method="GET" action="{{ url_for('plants_update_form', plant_id=plant.id) }}">
+                <div class="input-group">
+                  <button type="submit" class="btn btn-outline-dark">Muuta tietoja</button>
+                </div>
+              </form>
+            </td>
+            <td class="no-border">
+              <form class="form-inline" method="POST" action="{{ url_for('plants_delete', plant_id=plant.id) }}">
+                <div class="input-group">
+                  <button type="submit" class="btn btn-outline-dark">Poista</button>
+                </div>
+              </form>
+            </td>
+            {% endif %}
+            <td class="no-border">
+              <form class="form-inline" method="POST" action="{{ url_for('plants_new_user_connection', plant_id=plant.id) }}">
+                <div class="input-group">
+                  <button type="submit" class="btn btn-outline-dark">Lisää omalle listalle</button>
+                </div>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+
+      </table>
+    </div>
   </div>
 
 
-
+</div>
 
 {% endblock %}

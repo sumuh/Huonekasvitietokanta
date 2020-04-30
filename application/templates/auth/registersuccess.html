@@ -1,14 +1,10 @@
 {% extends "layout.html" %}
 
 {% block body %}
-<style>
-  .custom_title {
-    font-size: 30px;
-  }
-</style>
 
-<p class="custom_title">
+<p class="custom-title-large">
   Rekisteröityminen onnistui!
 </p>
+<a class="custom-title-medium" href="{{ url_for('auth_login') }}">Kirjaudu</a>
 
 {% endblock %}

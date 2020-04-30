@@ -2,126 +2,116 @@
 
 {% block body %}
 
-  <style>
-    th {
-      background-color: #9aad99;
-    }
-    td.no_border {
-      border-right-style: hidden;
-      border-top-style: hidden;
-      border-bottom-style: hidden;
-    }
-    .custom_title {
-      font-size: 30px;
-    }
-    .custom_title_smaller {
-      font-size: 20px;
-    }
-  </style>
+<style>
+td.no-border {
+  border-right-style: hidden;
+  border-top-style: hidden;
+  border-bottom-style: hidden;
+}
+th {
+  background-color: #ffff;
+  color: #333;
+}
+th.default {
+  background-color: #9aad99;
+}
+</style>
 
-  <p class="custom_title">Omat kasvit</p>
-  <p class="custom_title_smaller">
-    {% if number == 1 %}
-      Omistat {{ number }} kasvin
-    {% else %}
-      Omistat {{ number }} kasvia
-    {% endif %}
-  </p>
+<p class="custom-title-large">Omat kasvit</p>
+<p class="custom-title-medium">
+  {% if number == 1 %}
+    Omistat {{ number }} kasvin
+  {% else %}
+    Omistat {{ number }} kasvia
+  {% endif %}
+</p>
 
-  <table class="table table-bordered">
-    <thead class="font-weight-lighter">
-      <tr>
-        <th>Kasvi</th>
-        <th>Latinankielinen nimi</th>
-        <th>Vedentarve</th>
-        <th>Lannoituksentarve</th>
-        <th>Valontarve</th>
-        <th>
-          Kasteltu viimeksi
-        </th>
-        <th>
-          Lannoitettu viimeksi
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for sublist in plants %}
-      <tr>
-        <td>{{ sublist[0].name_fin }}</td>
-        <td>{{ sublist[0].name_lat }}</td>
-        <td>{{ sublist[0].water_need }}</td>
-        <td>{{ sublist[0].fertilizer_need }}</td>
-        <td>{{ sublist[0].light_need }}</td>
+<table class="table table-bordered">
+  <thead class="font-weight-lighter">
+    <tr>
+      <th class="default">Kasvi</th>
+      <th class="default">Latinankielinen nimi</th>
+      <th class="default">Vedentarve</th>
+      <th class="default">Lannoituksentarve</th>
+      <th class="default">Valontarve</th>
+      <th class="default">
+        Kasteltu viimeksi
+      </th>
+      <th class="default">
+        Lannoitettu viimeksi
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for sublist in plants %}
+    <tr>
+      <td>{{ sublist[0].name_fin }}</td>
+      <td>{{ sublist[0].name_lat }}</td>
+      <td>{{ sublist[0].water_need }}</td>
+      <td>{{ sublist[0].fertilizer_need }}</td>
+      <td>{{ sublist[0].light_need }}</td>
 
-        <td>
+      <td>
 
-          <form class="form-inline" method="POST" action="{{ url_for('plants_update_last_watered', plant_id=sublist[0].id)}}">
+        <form class="form-inline" method="POST" action="{{ url_for('plants_update_last_watered', plant_id=sublist[0].id)}}">
 
-            <div class="input-group date" data-provide="datepicker" data-date-format="yyyy-mm-dd" data-date-week-start=1 data-date-language="fi" data-date-today-highlight=true data-date-autoclose=true>
+          <div class="input-group date" data-provide="datepicker" data-date-format="yyyy-mm-dd" data-date-week-start=1 data-date-language="fi" data-date-today-highlight=true data-date-autoclose=true>
 
-              <label for="lastwatered">{{ sublist[1] }}</label>
+            <label for="lastwatered">{{ sublist[1] }}</label>
 
-              <div class="input-group-addon">
-                <span class="glyphicon glyphicon-th"></span>
-              </div>
-
-              <div class="input-group">
-                {{ lastwateredform.newdate(class="form-control", autocomplete="off", placeholder="Valitse päivä") }}
-              </div>
-
+            <div class="input-group-addon">
+              <span class="glyphicon glyphicon-th"></span>
             </div>
 
-            <button type="submit" class="btn btn-outline-dark">Muuta</button>
-
-          </form>
-
-        </td>
-
-        <td>
-
-          <form class="form-inline" method="POST" action="{{ url_for('plants_update_last_fertilized', plant_id=sublist[0].id)}}">
-
-            <div class="input-group date" data-provide="datepicker" data-date-format="yyyy-mm-dd" data-date-week-start=1 data-date-language="fi" data-date-today-highlight=true data-date-autoclose=true>
-
-              <label for="lastfertilized">{{ sublist[2] }}</label>
-
-              <div class="input-group-addon">
-                <span class="glyphicon glyphicon-th"></span>
-              </div>
-
-              <div class="input-group">
-                {{ lastfertilizedform.newdate(class="form-control", autocomplete="off", placeholder="Valitse päivä") }}
-              </div>
-
-            </div>
-
-            <button type="submit" class="btn btn-outline-dark">Muuta</button>
-
-          </form>
-
-        </td>
-
-        <td class="no_border">
-          <form class="form-inline" method="POST" action="{{ url_for('plants_delete_user_connection', plant_id=sublist[0].id) }}">
             <div class="input-group">
-              <button type="submit" class="btn btn-outline-dark">Poista omalta listalta</button>
+              {{ lastwateredform.newdate(class="form-control", style="margin-top:3px;", autocomplete="off", placeholder="Valitse päivä") }}
             </div>
-          </form>
-        </td>
 
-      </tr>
-      {% endfor %}
-    </tbody>
+          </div>
 
-  </table>
+          <button type="submit" class="btn btn-outline-dark" style="margin-top:7px;">Muuta</button>
 
-  <script>
-    var options = $.extend(
-        {},
-        $.datepicker.regional['fi'],
-    );
+        </form>
 
-    $("#calendar").datepicker(options);
-  </script>
+      </td>
+
+      <td>
+
+        <form class="form-inline" method="POST" action="{{ url_for('plants_update_last_fertilized', plant_id=sublist[0].id)}}">
+
+          <div class="input-group date" data-provide="datepicker" data-date-format="yyyy-mm-dd" data-date-week-start=1 data-date-language="fi" data-date-today-highlight=true data-date-autoclose=true>
+
+            <label for="lastfertilized">{{ sublist[2] }}</label>
+
+            <div class="input-group-addon">
+              <span class="glyphicon glyphicon-th"></span>
+            </div>
+
+            <div class="input-group">
+              {{ lastfertilizedform.newdate(class="form-control", style="margin-top:3px;", autocomplete="off", placeholder="Valitse päivä") }}
+            </div>
+
+          </div>
+
+          <button type="submit" style="margin-top:7px;" class="btn btn-outline-dark">Muuta</button>
+
+        </form>
+
+      </td>
+
+      <td class="no-border">
+        <form class="form-inline" method="POST" action="{{ url_for('plants_delete_user_connection', plant_id=sublist[0].id) }}">
+          <div class="input-group">
+            <button type="submit" class="btn btn-outline-dark">Poista omalta listalta</button>
+          </div>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+
+  </tbody>
+
+</table>
+
 
 {% endblock %}

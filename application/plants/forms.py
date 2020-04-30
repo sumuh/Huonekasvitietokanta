@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SelectField, SelectMultipleField, validators, RadioField, DateField
-from wtforms.ext.sqlalchemy.fields import QuerySelectField, QuerySelectMultipleField
+from wtforms import StringField, SelectField, DateField, validators
+from wtforms.ext.sqlalchemy.fields import QuerySelectField
 
 from application.auth.models import User
 from .models import Plant, PlantUser, Category, PlantCategory
@@ -51,6 +51,6 @@ class UpdateLastWateredForm(FlaskForm):
 
 class UpdateLastFertilizedForm(FlaskForm):
 
-    newdate = DateField("Date")
+    newdate = DateField("Date", format = "%Y-%m-%d")
     class Meta:
         csrf = False

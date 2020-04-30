@@ -1,79 +1,71 @@
 {% extends "layout.html" %}
 
 {% block body %}
-  <style>
-    th {
-      background-color: #9aad99;
-    }
-    td.no_border {
-      border-right-style: hidden;
-      border-top-style: hidden;
-      border-bottom-style: hidden;
-    }
-    .custom_title {
-      font-size: 30px;
-    }
-    .custom_title_smaller {
-      font-size: 20px;
-    }
-  </style>
 
-  <p class="custom_title">
-    {{ header }}
-  </p>
-  <p class="custom_title_smaller">
-    {% if number == 1 %}
-      Haulla löytyi {{ number }} kasvi
-    {% else %}
-      Haulla löytyi {{ number }} kasvia
-    {% endif %}
-  </p>
+<style>
+td.no-border {
+  border-right-style: hidden;
+  border-top-style: hidden;
+  border-bottom-style: hidden;
+}
+</style>
 
-  <table class="table table-bordered">
-    <thead class="font-weight-lighter">
-      <tr>
-        <th>Kasvi</th>
-        <th>Latinankielinen nimi</th>
-        <th>Vedentarve</th>
-        <th>Lannoituksentarve</th>
-        <th>Valontarve</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for plant in plants %}
-      <tr>
-        <td>{{ plant.name_fin }}</td>
-        <td>{{ plant.name_lat }}</td>
-        <td>{{ plant.water_need }}</td>
-        <td>{{ plant.fertilizer_need }}</td>
-        <td>{{ plant.light_need }}</td>
-        {% if current_user.role == "ADMIN" %}
-        <td class="no_border">
-          <form method="GET" action="{{ url_for('plants_update_form', plant_id=plant.id) }}">
-            <div class="input-group">
-              <button type="submit" class="btn btn-outline-dark">Muuta tietoja</button>
-            </div>
-          </form>
-        </td>
-        <td class="no_border">
-          <form method="POST" action="{{ url_for('plants_delete', plant_id=plant.id) }}">
-            <div class="input-group">
-              <button type="submit" class="btn btn-outline-dark">Poista</button>
-            </div>
-          </form>
-        </td>
-        {% endif %}
-        <td class="no_border">
-          <form class="form-inline" method="POST" action="{{ url_for('plants_new_user_connection', plant_id=plant.id) }}">
-            <div class="input-group">
-              <button type="submit" class="btn btn-outline-dark">Lisää omalle listalle</button>
-            </div>
-          </form>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
+<p class="custom-title-large">
+  {{ header }}
+</p>
+<p class="custom-title-medium">
+  {% if number == 1 %}
+    Haulla löytyi {{ number }} kasvi
+  {% else %}
+    Haulla löytyi {{ number }} kasvia
+  {% endif %}
+</p>
 
-  </table>
+<table class="table table-bordered">
+  <thead class="font-weight-lighter">
+    <tr>
+      <th>Kasvi</th>
+      <th>Latinankielinen nimi</th>
+      <th>Vedentarve</th>
+      <th>Lannoituksentarve</th>
+      <th>Valontarve</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for plant in plants %}
+    <tr>
+      <td>{{ plant.name_fin }}</td>
+      <td>{{ plant.name_lat }}</td>
+      <td>{{ plant.water_need }}</td>
+      <td>{{ plant.fertilizer_need }}</td>
+      <td>{{ plant.light_need }}</td>
+      {% if current_user.role == "ADMIN" %}
+      <td class="no-border">
+        <form method="GET" action="{{ url_for('plants_update_form', plant_id=plant.id) }}">
+          <div class="input-group">
+            <button type="submit" class="btn btn-outline-dark">Muuta tietoja</button>
+          </div>
+        </form>
+      </td>
+      <td class="no-border">
+        <form method="POST" action="{{ url_for('plants_delete', plant_id=plant.id) }}">
+          <div class="input-group">
+            <button type="submit" class="btn btn-outline-dark">Poista</button>
+          </div>
+        </form>
+      </td>
+      {% endif %}
+      <td class="no-border">
+        <form class="form-inline" method="POST" action="{{ url_for('plants_new_user_connection', plant_id=plant.id) }}">
+          <div class="input-group">
+            <button type="submit" class="btn btn-outline-dark">Lisää omalle listalle</button>
+          </div>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+
+</table>
 
 {% endblock %}

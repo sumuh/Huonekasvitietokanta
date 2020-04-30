@@ -2,23 +2,12 @@
 
 {% block body %}
 
-<style>
-  th {
-    background-color: #9aad99;
-  }
-  .custom_title {
-    font-size: 30px;
-  }
-  .custom_title_smaller {
-    font-size: 20px;
-  }
-</style>
-
 {{ error }}
+
 <div class="container">
   <div class="row">
     <div class="col">
-      <p class="custom_title">
+      <p class="custom-title-large">
         Lisää kategoria
       </p>
 
@@ -51,10 +40,10 @@
 
     <div class="col">
 
-      <p class="custom_title">
+      <p class="custom-title-large">
         Olemassa olevat kategoriat
       </p>
-      <p class="custom_title_smaller">
+      <p class="custom-title-medium">
         {% if number == 1 %}
           Yhteensä {{ number }} kategoria
         {% else %}
